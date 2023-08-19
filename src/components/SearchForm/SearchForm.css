@@ -1,0 +1,45 @@
+.searchFrame {
+	margin: auto;
+	display: flex;
+	max-width: fit-content;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+	border: 1px rgba(0, 0, 0, 0.1) solid;
+	border-radius: 1.2rem;
+}
+.inputContainer {
+	position: relative;
+	margin-right: 0.5rem;
+	padding: 0.5rem;
+}
+.inputContainer:not(:nth-child(n + 4)) {
+	border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+.inputControl {
+	--font-weight: 500;
+
+	outline: none;
+	font-size: var(--main-font-size);
+	font-weight: var(--font-weight);
+	border: none;
+	border-radius: 1rem;
+	padding: 0.8rem 1rem;
+	&:focus {
+		background-color: hsl(0, 0%, 95%);
+	}
+}
+
+.calendar {
+	background: white;
+	margin: 0 !important;
+	border: 1px solid black;
+	position: absolute;
+	top: 100%;
+	left: 0;
+}
+.btn {
+	background: rgb(255, 94, 35);
+	color: white;
+	cursor: pointer;
+}
