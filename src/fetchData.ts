@@ -19,7 +19,7 @@ import axios from "axios";
 	return "Bearer " + token.data.access_token;
 }; */
 
-const getData = async (url: string) => {
+const fetchData = (url: string) => {
 	/* const token = await getToken();
 	const conf = {
 		headers: {
@@ -32,4 +32,4 @@ const getData = async (url: string) => {
 	*/
 	return axios.get(url);
 };
-export default getData;
+export default fetchData;

@@ -16,14 +16,14 @@
 .increseDecreseSec {
 	display: flex;
 	align-items: center;
-	& button {
-		cursor: pointer;
-		width: 2.5rem;
-		height: 2.5rem;
-	}
-	& span {
-		margin: 0 0.3rem;
-	}
+}
+.increseDecreseSec button {
+	cursor: pointer;
+	width: 2.5rem;
+	height: 2.5rem;
+}
+.increseDecreseSec span {
+	margin: 0 0.3rem;
 }
 .inputContainer span {
 	display: block;

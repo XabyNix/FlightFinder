@@ -17,23 +17,22 @@
 	margin: 1rem;
 	display: flex;
 	flex-direction: column;
-
-	& > * {
-		margin: 0;
-	}
+}
+.hourDestination > * {
+	margin: 0;
 }
 .rightSide {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
-	& > * {
-		margin: 0;
-	}
-	& p {
-		font-size: x-large;
-		margin-bottom: 0.5rem;
-	}
+}
+.rightSide > * {
+	margin: 0;
+}
+.rightSide p {
+	font-size: x-large;
+	margin-bottom: 0.5rem;
 }
 
 .btnSelect {

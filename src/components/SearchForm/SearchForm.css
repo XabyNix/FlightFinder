@@ -25,21 +25,20 @@
 	border: none;
 	border-radius: 1rem;
 	padding: 0.8rem 1rem;
-	&:focus {
-		background-color: hsl(0, 0%, 95%);
-	}
+}
+.inputControl:focus {
+	background-color: hsl(0, 0%, 95%);
 }
 
-.calendar {
-	background: white;
-	margin: 0 !important;
-	border: 1px solid black;
-	position: absolute;
-	top: 100%;
-	left: 0;
-}
-.btn {
+.btn,
+.btn:focus {
 	background: rgb(255, 94, 35);
 	color: white;
 	cursor: pointer;
+}
+.btn:hover {
+	background: rgb(255, 72, 6);
+}
+.btn:active {
+	background: rgb(207, 58, 5);
 }

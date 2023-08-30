@@ -1,9 +1,9 @@
 import SearchForm from "./components/SearchForm/SearchForm";
 import Navbar from "./components/navbar/Navbar";
 import "./App.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Results from "./components/results/Results";
-import getData from "./fetchData";
+import axios from "axios";
 
 export interface Flight {
 	departure: {
@@ -21,34 +21,33 @@ export interface Flight {
 	};
 }
 
-type ResponseType = Flight[];
+/* type ResponseType = Flight[]; */
 
 function App() {
-	const [resultPropsData, setResultPropsData] = useState<ResponseType>();
-	const [isLoading, setIsLoading] = useState(true);
-	const url = "http://localhost:3000/flights/data";
+	const [resultPropsData, setResultPropsData] = useState<Flight[]>();
+	const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined);
 
-	useEffect(() => {
-		async function fetchData() {
-			try {
-				const response = await getData(url);
-				setResultPropsData(response.data);
-				setIsLoading(false);
-			} catch (error) {
-				console.error("Error fetching data", error);
-				setIsLoading(false);
-			}
+	async function onSubmitHandler(url: string) {
+		try {
+			const response = await axios.get(url);
+			setResultPropsData(response.data);
+			setIsLoading(false);
+			console.log("fetch avvenuta con successo");
+		} catch (error) {
+			console.error("Error fetching data", error);
 		}
-		fetchData();
-	}, []);
+	}
 
-	resultPropsData && console.log(resultPropsData);
 	return (
 		<div>
 			<Navbar></Navbar>
-			<SearchForm></SearchForm>
-
-			{isLoading ? <p>Loading...</p> : resultPropsData && resultPropsData.map((flight, index) => <Results key={index} {...flight}></Results>)}
+			<SearchForm submitPassUrl={onSubmitHandler}></SearchForm>
+			{isLoading ? (
+				<p>Loading...</p>
+			) : (
+				resultPropsData &&
+				resultPropsData!.map((flight, index) => <Results key={index} {...flight}></Results>)
+			)}
 		</div>
 	);
 }

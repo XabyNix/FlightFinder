@@ -1,19 +1,17 @@
 import { useState, useRef, useEffect } from "react";
 import "./options.css";
 
-type peopleType = {
+interface adultType {
 	adult: number;
+	setAdult: React.Dispatch<React.SetStateAction<number>>;
 	children: number;
-};
+	setChildren: React.Dispatch<React.SetStateAction<number>>;
+}
 
-const Options = () => {
-	const [people, setPeople] = useState<peopleType>({ adult: 1, children: 0 });
+const Options = ({ adult, setAdult, children, setChildren }: adultType) => {
 	const [isVisible, setIsVisible] = useState(false);
-	const clickRef = useRef<HTMLInputElement | null>(null);
 
-	const handlePeople = (name: keyof peopleType, operation: string) => {
-		setPeople({ ...people, [name]: operation === "i" ? people[name] + 1 : people[name] - 1 });
-	};
+	const clickRef = useRef<HTMLInputElement | null>(null);
 
 	useEffect(() => {
 		const handleClickDocument = (e: MouseEvent) => {
@@ -29,28 +27,28 @@ const Options = () => {
 	});
 	return (
 		<div className="inputContainer" ref={clickRef}>
-			<span className="inputControl optionButton" onClick={() => setIsVisible(!isVisible)}>{`${people.adult} adulti - ${people.children} bambini`}</span>
+			<span className="inputControl optionButton" onClick={() => setIsVisible(!isVisible)}>{`${adult} adulti - ${children} bambini`}</span>
 
 			{isVisible && (
 				<div className="options">
 					<div className="option">
 						<span>Adulti</span>
 						<div className="increseDecreseSec">
-							<button disabled={people.adult <= 1} onClick={() => handlePeople("adult", "d")}>
+							<button disabled={adult <= 1} onClick={() => setAdult(adult - 1)}>
 								-
 							</button>
-							<span>{people.adult}</span>
-							<button onClick={() => handlePeople("adult", "i")}>+</button>
+							<span>{adult}</span>
+							<button onClick={() => setAdult(adult + 1)}>+</button>
 						</div>
 					</div>
 					<div className="option">
 						<span>Bambini</span>
 						<div className="increseDecreseSec">
-							<button disabled={people.children < 1} onClick={() => handlePeople("children", "d")}>
+							<button disabled={children < 1} onClick={() => setChildren(children - 1)}>
 								-
 							</button>
-							<span>{people.children}</span>
-							<button onClick={() => handlePeople("children", "i")}>+</button>
+							<span>{children}</span>
+							<button onClick={() => setChildren(children + 1)}>+</button>
 						</div>
 					</div>
 				</div>
