@@ -25,11 +25,17 @@ const Results = (props: Flight) => {
 	const newArrivalDate = new Date(props.arrival.time);
 
 	const departureDate = newDepartureDate.toLocaleDateString(undefined, { dateStyle: "medium" });
-	const departureTime = newDepartureDate.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+	const departureTime = newDepartureDate.toLocaleTimeString(undefined, {
+		hour: "2-digit",
+		minute: "2-digit",
+	});
 	const formattedDepartureDate = `${departureDate} alle ${departureTime}`;
 
 	const arrivalDate = newArrivalDate.toLocaleDateString(undefined, { dateStyle: "medium" });
-	const arrivalTime = newArrivalDate.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+	const arrivalTime = newArrivalDate.toLocaleTimeString(undefined, {
+		hour: "2-digit",
+		minute: "2-digit",
+	});
 	const formattedArrivalDate = `${arrivalDate} alle ${arrivalTime}`;
 	return (
 		<div className="container">

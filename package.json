@@ -19,7 +19,8 @@
 		"dayjs": "^1.11.9",
 		"focus-trap-react": "^10.2.1",
 		"react-day-picker": "^8.8.0",
-		"react-dom": "^18.2.0"
+		"react-dom": "^18.2.0",
+		"react-router-dom": "^6.15.0"
 	},
 	"devDependencies": {
 		"@types/node": "^20.4.10",

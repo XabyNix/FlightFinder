@@ -1,33 +1,60 @@
-.options {
-	background: white;
-	width: 150%;
+* {
+	box-sizing: border-box;
+}
+
+.container1 {
 	display: flex;
 	flex-direction: column;
 	position: absolute;
-	border: 1px solid black;
+	background-color: white;
+	border: 1px solid var(--shadow-color);
+	box-shadow: var(--appear-box-shadow);
 	top: 100%;
+	width: 300px;
+	justify-content: center;
 }
-.option {
-	padding: 0.5rem 1rem;
+.innerContainer {
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
+}
+.typeContainer {
+	flex-basis: 100px;
+}
+.buttonsContainer {
+	flex-basis: 150px;
+	display: flex;
+	justify-content: space-evenly;
 	align-items: center;
 }
-.increseDecreseSec {
-	display: flex;
-	align-items: center;
+.buttonsContainer > button,
+.buttonsContainer > p {
+	--button-dimension: 25px;
+	--button-border-color: rgba(255, 113, 36, 0.895);
+	width: var(--button-dimension);
+	height: var(--button-dimension);
+	padding: 0.5rem;
+	border-radius: 100%;
+	border: 1px solid var(--button-border-color);
+	color: var(--button-border-color);
+	background-color: white;
+	font-size: 1.5rem;
+	font-weight: 500;
+	text-align: center;
 }
-.increseDecreseSec button {
-	cursor: pointer;
-	width: 2.5rem;
-	height: 2.5rem;
+.buttonsContainer > button {
+	box-sizing: content-box;
+	line-height: var(--button-dimension);
 }
-.increseDecreseSec span {
-	margin: 0 0.3rem;
+.buttonsContainer > button:hover {
+	background-color: rgba(255, 113, 36, 0.895);
+	color: white;
 }
-.inputContainer span {
-	display: block;
-}
-.optionButton {
-	cursor: pointer;
+.buttonsContainer > p {
+	margin: 0;
+	height: calc(var(--button-dimension)+ 30px);
+	padding: 0;
+	font-size: 1rem;
+	border-radius: 2px;
+	border-color: rgba(0, 0, 0, 0.22);
+	color: black;
 }

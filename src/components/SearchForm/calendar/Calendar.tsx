@@ -2,21 +2,21 @@ import { ChangeEventHandler, useState } from "react";
 import { DayPicker, DateRange, SelectRangeEventHandler } from "react-day-picker";
 import { format, parse, isAfter, isBefore, addYears } from "date-fns";
 import "react-day-picker/dist/style.css";
-import "./calendar.css";
 import { it } from "date-fns/locale";
 import FocusTrap from "focus-trap-react";
+import "./calendar.css";
 
 interface props {
-	passDate: (date: string) => void;
+	passDate(date: string): void;
 }
 
 function Calendar({ passDate }: props) {
 	const [selected, setSelected] = useState<DateRange>();
-	const [fromValue, setFromValue] = useState<string>();
-	const [toValue, setToValue] = useState<string>();
+	const [fromValue, setFromValue] = useState<string>("");
+	const [toValue, setToValue] = useState<string>("");
 
 	const [footer, setFooter] = useState<string | undefined>();
-	const [isOpen, setIsOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [anyError, setAnyError] = useState<boolean>(false);
 
 	const dateFormat = "dd-MM-yyyy";
@@ -24,6 +24,7 @@ function Calendar({ passDate }: props) {
 	const handleOnSelectRange: SelectRangeEventHandler = (date) => {
 		setSelected(date);
 		if (date?.from) {
+			if (!anyError) passDate(format(date.from, "yyyy-MM-dd"));
 			setFromValue(format(date.from, dateFormat));
 		} else {
 			setFromValue("");
@@ -33,7 +34,6 @@ function Calendar({ passDate }: props) {
 		} else {
 			setToValue("");
 		}
-		if (!anyError) passDate(fromValue!);
 	};
 
 	const handleFromChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -48,7 +48,7 @@ function Calendar({ passDate }: props) {
 			setFooter(undefined);
 			setAnyError(false);
 		}
-		passDate(fromValue!);
+		passDate(format(parsedDate, "yyyy-MM-dd"));
 	};
 
 	const handleToChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -64,10 +64,6 @@ function Calendar({ passDate }: props) {
 			setAnyError(false);
 		}
 	};
-
-	function closeCalendar() {
-		setIsOpen(false);
-	}
 
 	return (
 		<div className="inputContainer">
@@ -95,10 +91,10 @@ function Calendar({ passDate }: props) {
 						initialFocus: false,
 						allowOutsideClick: true,
 						clickOutsideDeactivates: true,
-						onDeactivate: closeCalendar,
+						onDeactivate: () => setIsOpen(false),
 					}}
 				>
-					<div>
+					<div className="calendar calendar-positioning">
 						<DayPicker
 							modifiersClassNames={{
 								today: "my-today",

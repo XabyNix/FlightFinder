@@ -3,7 +3,7 @@ import Navbar from "./components/navbar/Navbar";
 import "./App.css";
 import { useState } from "react";
 import Results from "./components/results/Results";
-import axios from "axios";
+import fetchSearch from "./utils/fetchSearch";
 
 export interface Flight {
 	departure: {
@@ -21,21 +21,19 @@ export interface Flight {
 	};
 }
 
-/* type ResponseType = Flight[]; */
-
 function App() {
 	const [resultPropsData, setResultPropsData] = useState<Flight[]>();
 	const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined);
 
 	async function onSubmitHandler(url: string) {
-		try {
-			const response = await axios.get(url);
-			setResultPropsData(response.data);
-			setIsLoading(false);
-			console.log("fetch avvenuta con successo");
-		} catch (error) {
-			console.error("Error fetching data", error);
+		const response = await fetchSearch(url);
+		if (response === -1) {
+			console.error("Error fetching data");
+			return;
 		}
+		setResultPropsData(response);
+		setIsLoading(false);
+		console.log("fetch avvenuta con successo");
 	}
 
 	return (

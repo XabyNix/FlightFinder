@@ -1,4 +1,5 @@
 .searchFrame {
+	background-color: white;
 	margin: auto;
 	display: flex;
 	max-width: fit-content;
@@ -18,7 +19,7 @@
 }
 .inputControl {
 	--font-weight: 500;
-
+	margin: 0;
 	outline: none;
 	font-size: var(--main-font-size);
 	font-weight: var(--font-weight);
@@ -41,4 +42,7 @@
 }
 .btn:active {
 	background: rgb(207, 58, 5);
+}
+p.inputControl {
+	cursor: pointer;
 }
