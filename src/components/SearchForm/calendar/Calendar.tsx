@@ -7,7 +7,7 @@ import FocusTrap from "focus-trap-react";
 import "./calendar.css";
 
 interface props {
-	passDate(date: string): void;
+	passDate(date?: string, returnDate?: string): void;
 }
 
 function Calendar({ passDate }: props) {
@@ -24,7 +24,6 @@ function Calendar({ passDate }: props) {
 	const handleOnSelectRange: SelectRangeEventHandler = (date) => {
 		setSelected(date);
 		if (date?.from) {
-			if (!anyError) passDate(format(date.from, "yyyy-MM-dd"));
 			setFromValue(format(date.from, dateFormat));
 		} else {
 			setFromValue("");
@@ -34,6 +33,8 @@ function Calendar({ passDate }: props) {
 		} else {
 			setToValue("");
 		}
+		if (date?.from && date?.to)
+			if (!anyError) passDate(format(date.from, "yyyy-MM-dd"), format(date.to, "yyyy-MM-dd"));
 	};
 
 	const handleFromChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -63,6 +64,7 @@ function Calendar({ passDate }: props) {
 			setFooter(undefined);
 			setAnyError(false);
 		}
+		passDate(format(parsedDate, "yyyy-MM-dd"));
 	};
 
 	return (
