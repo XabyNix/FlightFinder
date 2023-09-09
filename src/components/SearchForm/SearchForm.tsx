@@ -1,31 +1,19 @@
-import { useState } from "react";
 import Calendar from "./calendar/Calendar";
 import InputSearch from "./inputSearch/InputSearch";
 import Options from "./options/Options";
-import Results from "../results/Results";
+import { useState } from "react";
 import "./SearchForm.css";
 
-/* interface props {
+interface props {
 	submitPassUrl(argUrl: string): void;
-} */
+}
 
-const SearchForm = () => {
-	const [departure, setDeparture] = useState<string>("");
-	const [destination, setDestination] = useState<string>("");
-	const [departureDate, setDepartureDate] = useState<string>("");
-	const [returnDate, setReturnDate] = useState<string>("");
+const SearchForm = ({ submitPassUrl }: props) => {
+	const [departure, setDeparture] = useState<string>();
+	const [destination, setDestination] = useState<string>();
+	const [departureDate, setDepartureDate] = useState<string>();
 	const [adults, setAdults] = useState<number>(1);
-	const [child, setChild] = useState<number>(0);
-
-	const myObj = {
-		departureProp: departure,
-		destinationProp: destination,
-		departureDateProp: departureDate,
-		returnDateProp: returnDate,
-		adultsProp: adults,
-		childProp: child,
-	};
-	//const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined);
+	const [children, setChildren] = useState<number>(0);
 
 	function changeDeparture(location: string) {
 		setDeparture(location);
@@ -35,41 +23,43 @@ const SearchForm = () => {
 		setDestination(location);
 	}
 
-	function changeDate(date?: string, dateOfReturn?: string) {
-		date && setDepartureDate(date);
-		dateOfReturn && setReturnDate(dateOfReturn);
+	function changeDate(date: string) {
+		setDepartureDate(date);
 	}
 
 	function changePeopleNumberCallback(bigPeople: number, littlePeople: number) {
 		setAdults(bigPeople);
-		setChild(littlePeople);
+		setChildren(littlePeople);
 	}
-	function submitHandler() {}
+	function submitHandler(event: React.FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+
+		console.log(departure, destination, departureDate, adults, children);
+		const url = `http://localhost:3000/flights?from=${departure}&to=${destination}&departureDate=${departureDate}&adults=${adults}`;
+		submitPassUrl(url);
+	}
 
 	return (
-		<>
-			<form onSubmit={submitHandler}>
-				<div className="searchFrame">
-					<InputSearch
-						placeholder="Departure Airport"
-						changeLocation={(location) => changeDeparture(location)}
-					></InputSearch>
+		<form onSubmit={submitHandler}>
+			<div className="searchFrame">
+				<InputSearch
+					placeholder="Departure Airport"
+					changeLocation={(location) => changeDeparture(location)}
+				></InputSearch>
 
-					<InputSearch placeholder="Destination" changeLocation={changeDestination}></InputSearch>
+				<InputSearch placeholder="Destination" changeLocation={changeDestination}></InputSearch>
 
-					<Calendar passDate={changeDate}></Calendar>
+				<Calendar passDate={changeDate}></Calendar>
 
-					<Options changePeopleNumber={changePeopleNumberCallback}></Options>
+				<Options changePeopleNumber={changePeopleNumberCallback}></Options>
 
-					<div className="inputContainer">
-						<button className="inputControl btn" type="submit">
-							Cerca
-						</button>
-					</div>
+				<div className="inputContainer">
+					<button className="inputControl btn" type="submit">
+						Cerca
+					</button>
 				</div>
-			</form>
-			<Results {...myObj}></Results>
-		</>
+			</div>
+		</form>
 	);
 };
 
