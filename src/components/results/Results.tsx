@@ -1,28 +1,17 @@
 import "./Results.css";
 import "../SearchForm/SearchForm.css";
-import { Flight } from "../../App";
-/*
-export interface ResponseType {
-	departure: {
-		code: string;
-		time: Date;
-	};
-	arrival: {
-		code: string;
-		time: Date;
-	};
-	duration: Date;
-	price: {
-		currency: string;
-		total: string;
-	};
-}*/
+import { Flight, CityInfo } from "../../App";
 
-const Results = (props: Flight) => {
+interface prop {
+	data: Flight;
+	cityInfo: CityInfo[];
+}
+
+const Results = ({ data, cityInfo }: prop) => {
 	const arrow = "--->>>";
 
-	const newDepartureDate = new Date(props.departure.time);
-	const newArrivalDate = new Date(props.arrival.time);
+	const newDepartureDate = new Date(data.departure.time);
+	const newArrivalDate = new Date(data.arrival.time);
 
 	const departureDate = newDepartureDate.toLocaleDateString(undefined, { dateStyle: "medium" });
 	const departureTime = newDepartureDate.toLocaleTimeString(undefined, {
@@ -41,20 +30,20 @@ const Results = (props: Flight) => {
 		<div className="container">
 			<div className="leftSide">
 				<div className="hourDestination">
-					<p>{props.departure.code}</p>
+					<p>{data.departure.code}</p>
 					<h4>{formattedDepartureDate}</h4>
 				</div>
 				<div className="hourDestination">
 					<p>{arrow}</p>
-					<p>{props.duration}</p>
+					<p>{data.duration}</p>
 				</div>
 				<div className="hourDestination">
-					<p>{props.arrival.code}</p>
+					<p>{data.arrival.code}</p>
 					<h4>{formattedArrivalDate}</h4>
 				</div>
 			</div>
 			<div className="rightSide">
-				<p className="price">{props.price.total}</p>
+				<p className="price">{data.price.total}</p>
 				<button type="button" className="btn btnSelect">
 					Seleziona
 				</button>

@@ -7,14 +7,13 @@ import FocusTrap from "focus-trap-react";
 import "./calendar.css";
 
 interface props {
-	passDate(date: string): void;
+	passDate(from?: string, to?: string): void;
 }
 
 function Calendar({ passDate }: props) {
 	const [selected, setSelected] = useState<DateRange>();
 	const [fromValue, setFromValue] = useState<string>("");
 	const [toValue, setToValue] = useState<string>("");
-
 	const [footer, setFooter] = useState<string | undefined>();
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [anyError, setAnyError] = useState<boolean>(false);
@@ -24,7 +23,6 @@ function Calendar({ passDate }: props) {
 	const handleOnSelectRange: SelectRangeEventHandler = (date) => {
 		setSelected(date);
 		if (date?.from) {
-			if (!anyError) passDate(format(date.from, "yyyy-MM-dd"));
 			setFromValue(format(date.from, dateFormat));
 		} else {
 			setFromValue("");
@@ -33,6 +31,9 @@ function Calendar({ passDate }: props) {
 			setToValue(format(date.to, dateFormat));
 		} else {
 			setToValue("");
+		}
+		if (date?.from && date?.to) {
+			!anyError && passDate(format(date.from, "yyyy-MM-dd"), format(date.to, "yyyy-MM-dd"));
 		}
 	};
 
@@ -63,6 +64,7 @@ function Calendar({ passDate }: props) {
 			setFooter(undefined);
 			setAnyError(false);
 		}
+		passDate(format(parsedDate, "yyyy-MM-dd"));
 	};
 
 	return (

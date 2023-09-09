@@ -20,32 +20,50 @@ export interface Flight {
 		total: string;
 	};
 }
+export interface CityInfo {
+	[key: string]: {
+		name: string;
+		country: string;
+	};
+}
+
+interface responseType {
+	data: Flight[];
+	city: CityInfo[];
+}
 
 function App() {
-	const [resultPropsData, setResultPropsData] = useState<Flight[]>();
-	const [isLoading, setIsLoading] = useState<boolean | undefined>(undefined);
+	const [resultPropsData, setResultPropsData] = useState<responseType>();
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isDataUndefined, setIsDataUndefined] = useState<boolean>(false);
 
-	async function onSubmitHandler(url: string) {
-		const response = await fetchSearch(url);
-		if (response === -1) {
-			console.error("Error fetching data");
-			return;
+	async function onSubmitHandler1(url: string) {
+		setIsLoading(true);
+		const response = await fetchSearch(url).catch((err) => {
+			console.log(err);
+		});
+
+		if (Object.keys(response.data).length === 0) {
+			setIsDataUndefined(true);
+		} else {
+			setIsDataUndefined(false);
+			setResultPropsData(response.data);
 		}
-		setResultPropsData(response);
+		console.log("fetch avvenuta");
 		setIsLoading(false);
-		console.log("fetch avvenuta con successo");
 	}
 
 	return (
 		<div>
 			<Navbar></Navbar>
-			<SearchForm submitPassUrl={onSubmitHandler}></SearchForm>
-			{isLoading ? (
-				<p>Loading...</p>
-			) : (
-				resultPropsData &&
-				resultPropsData!.map((flight, index) => <Results key={index} {...flight}></Results>)
-			)}
+			<SearchForm submitPassUrl={onSubmitHandler1}></SearchForm>
+
+			{isLoading && <p>Loading...</p>}
+			{resultPropsData &&
+				resultPropsData.data.map((flight, index) => (
+					<Results key={index} data={{ ...flight }} cityInfo={resultPropsData.city}></Results>
+				))}
+			{isDataUndefined && <p>Non ci sono voli</p>}
 		</div>
 	);
 }

@@ -7,15 +7,14 @@ interface adultType {
 }
 
 const Options = ({ changePeopleNumber }: adultType) => {
-	const [isVisible, setIsVisible] = useState<boolean>();
+	const [isVisible, setIsVisible] = useState<boolean>(false);
 	const [adults, setAdults] = useState<number>(1);
-	const [children, setChildren] = useState<number>(1);
-
-	/* const clickRef = useRef<HTMLInputElement | null>(null); */
+	const [children, setChildren] = useState<number>(0);
 
 	useEffect(() => {
 		changePeopleNumber(adults, children);
-	}, [adults, children]);
+	});
+
 	return (
 		<div className="inputContainer">
 			<p
@@ -38,11 +37,13 @@ const Options = ({ changePeopleNumber }: adultType) => {
 								<p>Adulti</p>
 							</div>
 							<div className="buttonsContainer">
-								<button disabled={adults <= 1} onClick={() => setAdults(adults - 1)}>
+								<button type="button" disabled={adults <= 1} onClick={() => setAdults(adults - 1)}>
 									-
 								</button>
 								<p>{adults}</p>
-								<button onClick={() => setAdults(adults + 1)}>+</button>
+								<button type="button" onClick={() => setAdults(adults + 1)}>
+									+
+								</button>
 							</div>
 						</div>
 						<div className="innerContainer">
@@ -50,11 +51,17 @@ const Options = ({ changePeopleNumber }: adultType) => {
 								<p>Bambini</p>
 							</div>
 							<div className="buttonsContainer">
-								<button disabled={children < 1} onClick={() => setChildren(children - 1)}>
+								<button
+									type="button"
+									disabled={children < 1}
+									onClick={() => setChildren(children - 1)}
+								>
 									-
 								</button>
 								<p>{children}</p>
-								<button onClick={() => setChildren(children + 1)}>+</button>
+								<button type="button" onClick={() => setChildren(children + 1)}>
+									+
+								</button>
 							</div>
 						</div>
 					</div>

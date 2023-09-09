@@ -20,20 +20,25 @@ function InputSearch({ changeLocation, placeholder }: props) {
 	const [searchResults, setSearchResults] = useState<searchType[]>();
 	const [inputValue, setInputValue] = useState<string>("");
 	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [isSelectedChange, setIsSelectedChange] = useState<boolean>(false);
 
 	useEffect(() => {
-		if (inputValue) {
-			console.log(inputValue);
-			const delayFn = setTimeout(async () => {
-				setSearchResults(await fetchSearch(endpoints.airport_code, inputValue));
-			}, 1000);
-			return () => clearTimeout(delayFn);
-		}
-	}, [inputValue]);
+		const delayFn = setTimeout(async () => {
+			if (!isSelectedChange && isOpen && inputValue.length !== 0) {
+				setSearchResults(
+					await fetchSearch(endpoints.airport_code, inputValue).catch((err) => console.log(err))
+				);
+				setIsSelectedChange(false);
+			}
+		}, 1000);
+		return () => clearTimeout(delayFn);
+	}, [inputValue, isSelectedChange, isOpen]);
 
-	function handleAirportClick(e: React.MouseEvent<HTMLParagraphElement>, code: string) {
-		changeLocation(code);
-		setInputValue(e.currentTarget.textContent!);
+	function handleAirportClick(airport: searchType) {
+		changeLocation(airport.iataCode);
+		setInputValue(airport.city);
+		setIsOpen(false);
+		setIsSelectedChange(true);
 	}
 
 	return (
@@ -63,7 +68,7 @@ function InputSearch({ changeLocation, placeholder }: props) {
 									tabIndex={0}
 									key={index}
 									className="info"
-									onClick={(event) => handleAirportClick(event, airport.iataCode)}
+									onClick={() => handleAirportClick(airport)}
 								>
 									{airport.city}{" "}
 									<span>

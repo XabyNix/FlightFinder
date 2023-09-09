@@ -12,6 +12,7 @@ const SearchForm = ({ submitPassUrl }: props) => {
 	const [departure, setDeparture] = useState<string>();
 	const [destination, setDestination] = useState<string>();
 	const [departureDate, setDepartureDate] = useState<string>();
+	const [returnDate, setReturnDate] = useState<string>();
 	const [adults, setAdults] = useState<number>(1);
 	const [children, setChildren] = useState<number>(0);
 
@@ -23,19 +24,21 @@ const SearchForm = ({ submitPassUrl }: props) => {
 		setDestination(location);
 	}
 
-	function changeDate(date: string) {
-		setDepartureDate(date);
+	function changeDate(dateOfDeparture?: string, dateOfReturn?: string) {
+		setDepartureDate(dateOfDeparture);
+		setReturnDate(dateOfReturn);
 	}
 
 	function changePeopleNumberCallback(bigPeople: number, littlePeople: number) {
 		setAdults(bigPeople);
 		setChildren(littlePeople);
 	}
+
 	function submitHandler(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
-		console.log(departure, destination, departureDate, adults, children);
-		const url = `http://localhost:3000/flights?from=${departure}&to=${destination}&departureDate=${departureDate}&adults=${adults}`;
+		console.log(departure, destination, departureDate, returnDate, adults, children);
+		const url = `http://localhost:3000/flights?from=${departure}&to=${destination}&departureDate=${departureDate}&returnDate=${returnDate}&adults=${adults}&children=${children}`;
 		submitPassUrl(url);
 	}
 
