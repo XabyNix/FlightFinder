@@ -8,11 +8,11 @@ import fetchSearch from "./utils/fetchSearch";
 export interface Flight {
 	departure: {
 		code: string;
-		time: Date;
+		time: string;
 	};
 	arrival: {
 		code: string;
-		time: Date;
+		time: string;
 	};
 	duration: string;
 	price: {
@@ -29,7 +29,7 @@ export interface CityInfo {
 
 interface responseType {
 	data: Flight[];
-	city: CityInfo[];
+	city: CityInfo;
 }
 
 function App() {
