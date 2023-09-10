@@ -54,7 +54,7 @@ function App() {
 	}
 
 	return (
-		<div>
+		<div className="pageContainer">
 			<Navbar></Navbar>
 			<SearchForm submitPassUrl={onSubmitHandler1}></SearchForm>
 

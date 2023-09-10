@@ -7,6 +7,7 @@ import "./inputSearch.css";
 interface props {
 	changeLocation(location: string): void;
 	placeholder: string;
+	id: string;
 }
 
 type searchType = {
@@ -16,7 +17,7 @@ type searchType = {
 	name: string;
 };
 
-function InputSearch({ changeLocation, placeholder }: props) {
+function InputSearch({ changeLocation, placeholder, id }: props) {
 	const [searchResults, setSearchResults] = useState<searchType[]>();
 	const [inputValue, setInputValue] = useState<string>("");
 	const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -42,7 +43,7 @@ function InputSearch({ changeLocation, placeholder }: props) {
 	}
 
 	return (
-		<div className="inputContainer">
+		<div className="inputContainer" id={id}>
 			<input
 				placeholder={placeholder}
 				className="inputControl"

@@ -1,11 +1,11 @@
 .container {
 	--box-color: rgba(0, 0, 0, 0.1);
-
 	display: flex;
 	border: 1px solid var(--box-color);
 	justify-content: space-around;
 	background: white;
-	margin: 2rem 20%;
+	margin: 2rem auto;
+	max-width: calc(600px + 10vw);
 	box-shadow: var(--main-box-shadow);
 	padding: 1rem 1.5rem;
 }

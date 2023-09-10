@@ -14,6 +14,7 @@
 	background-color: var(--selected-background);
 }
 .calendar {
+	z-index: 2;
 	background-color: white;
 	box-shadow: var(--main-box-shadow);
 	border: 1px solid var(--main-box-shadow-color);

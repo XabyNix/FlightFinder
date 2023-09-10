@@ -16,7 +16,7 @@ const Options = ({ changePeopleNumber }: adultType) => {
 	});
 
 	return (
-		<div className="inputContainer">
+		<div className="inputContainer" id="personNumber">
 			<p
 				className="inputControl optionButton"
 				onClick={() => setIsVisible(!isVisible)}

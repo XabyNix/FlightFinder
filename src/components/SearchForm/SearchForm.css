@@ -1,38 +1,48 @@
 .searchFrame {
-	background-color: white;
-	margin: auto;
+	--inner-border-radius: 8px;
 	display: flex;
-	max-width: fit-content;
+	background-color: white /* rgb(255, 242, 242) */;
+	flex-wrap: wrap;
 	align-items: center;
-	justify-content: center;
+	max-width: 1300px;
+	margin: auto;
+	justify-content: space-between;
 	box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
 	border: 1px rgba(0, 0, 0, 0.1) solid;
-	border-radius: 1.2rem;
+	border-radius: 15px;
 }
+
 .inputContainer {
 	position: relative;
-	margin-right: 0.5rem;
 	padding: 0.5rem;
-}
-.inputContainer:not(:nth-child(n + 4)) {
-	border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 .inputControl {
 	--font-weight: 500;
+	--outline-color: rgb(255, 203, 203);
+	width: 100%;
 	margin: 0;
-	outline: none;
+	outline: 1px solid var(--outline-color);
 	font-size: var(--main-font-size);
 	font-weight: var(--font-weight);
 	border: none;
-	border-radius: 1rem;
 	padding: 0.8rem 1rem;
+	transition: all ease-in-out 0.15s;
 }
 .inputControl:focus {
-	background-color: hsl(0, 0%, 95%);
+	outline: 3px solid var(--outline-color);
 }
-
+.inputContainer:first-child .inputControl {
+	border-bottom-left-radius: 10px;
+	border-top-left-radius: 10px;
+}
+.inputContainer:last-child .inputControl {
+	border-bottom-right-radius: 10px;
+	border-top-right-radius: 10px;
+}
 .btn,
 .btn:focus {
+	font-family: var(--main-font-size);
+	width: 100%;
 	background: rgb(255, 94, 35);
 	color: white;
 	cursor: pointer;
@@ -45,4 +55,83 @@
 }
 p.inputControl {
 	cursor: pointer;
+}
+
+#departureLocation {
+	grid-area: departureLocation;
+}
+#destinationLocation {
+	grid-area: destinationLocation;
+}
+#departureDate {
+	grid-area: departureDate;
+}
+#returnDate {
+	grid-area: returnDate;
+}
+#personNumber {
+	grid-area: personNumber;
+}
+#searchButton {
+	grid-area: searchButton;
+}
+@media (min-width: 801px) and (max-width: 1350px) {
+	.searchFrame {
+		display: grid;
+		margin: 0 3rem;
+		padding: 1rem 1.2rem;
+		grid-template-columns: repeat(4, 1fr);
+		grid-template-rows: repeat(2, 1fr);
+
+		grid-template-areas:
+			"departureLocation departureLocation destinationLocation destinationLocation"
+			"departureDate returnDate personNumber searchButton";
+	}
+
+	.inputContainer:first-child .inputControl {
+		border-radius: 0;
+		border-top-left-radius: var(--inner-border-radius);
+	}
+	.inputContainer:nth-child(2) .inputControl {
+		border-radius: 0;
+		border-top-right-radius: var(--inner-border-radius);
+	}
+	.inputContainer:nth-child(3) .inputControl {
+		border-radius: 0;
+		border-bottom-left-radius: var(--inner-border-radius);
+	}
+	.inputContainer:last-child .inputControl {
+		border-radius: 0;
+		border-bottom-right-radius: var(--inner-border-radius);
+	}
+}
+
+@media screen and (max-width: 800px) {
+	.searchFrame {
+		display: grid;
+		margin: 0 3rem;
+		padding: 1.5rem;
+		grid-template-columns: 1fr;
+		grid-template-rows: repeat(6, 1fr);
+
+		grid-template-areas:
+			"departureLocation"
+			"destinationLocation"
+			"departureDate"
+			"returnDate"
+			"personNumber"
+			"searchButton";
+	}
+
+	.inputContainer:first-child .inputControl {
+		border-radius: 0px;
+		border-top-left-radius: var(--inner-border-radius);
+		border-top-right-radius: var(--inner-border-radius);
+	}
+
+	.inputContainer:last-child .inputControl {
+		border-radius: 0px;
+		border-bottom-right-radius: var(--inner-border-radius);
+		border-bottom-left-radius: var(--inner-border-radius);
+	}
 }

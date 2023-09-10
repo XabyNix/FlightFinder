@@ -46,17 +46,22 @@ const SearchForm = ({ submitPassUrl }: props) => {
 		<form onSubmit={submitHandler}>
 			<div className="searchFrame">
 				<InputSearch
+					id="departureLocation"
 					placeholder="Departure Airport"
 					changeLocation={(location) => changeDeparture(location)}
 				></InputSearch>
 
-				<InputSearch placeholder="Destination" changeLocation={changeDestination}></InputSearch>
+				<InputSearch
+					id="destinationLocation"
+					placeholder="Destination"
+					changeLocation={changeDestination}
+				></InputSearch>
 
 				<Calendar passDate={changeDate}></Calendar>
 
 				<Options changePeopleNumber={changePeopleNumberCallback}></Options>
 
-				<div className="inputContainer">
+				<div className="inputContainer" id="searchButton">
 					<button className="inputControl btn" type="submit">
 						Cerca
 					</button>

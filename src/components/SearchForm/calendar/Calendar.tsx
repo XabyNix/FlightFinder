@@ -68,25 +68,29 @@ function Calendar({ passDate }: props) {
 	};
 
 	return (
-		<div className="inputContainer">
-			<input
-				className="inputControl"
-				value={fromValue}
-				onChange={handleFromChange}
-				type="text"
-				placeholder="From Date"
-				name="dayPickerInput"
-				onClick={() => setIsOpen(true)}
-			/>
-			<input
-				className="inputControl"
-				value={toValue}
-				onChange={handleToChange}
-				type="text"
-				placeholder="To Date"
-				name="dayPickerInput"
-				onClick={() => setIsOpen(true)}
-			/>
+		<>
+			<div className="inputContainer" id="departureDate">
+				<input
+					className="inputControl "
+					value={fromValue}
+					onChange={handleFromChange}
+					type="text"
+					placeholder="From Date"
+					name="dayPickerInput"
+					onClick={() => setIsOpen(true)}
+				/>
+			</div>
+			<div className="inputContainer" id="returnDate">
+				<input
+					className="inputControl "
+					value={toValue}
+					onChange={handleToChange}
+					type="text"
+					placeholder="To Date"
+					name="dayPickerInput"
+					onClick={() => setIsOpen(true)}
+				/>
+			</div>
 			{isOpen && (
 				<FocusTrap
 					focusTrapOptions={{
@@ -115,7 +119,7 @@ function Calendar({ passDate }: props) {
 					</div>
 				</FocusTrap>
 			)}
-		</div>
+		</>
 	);
 }
 
