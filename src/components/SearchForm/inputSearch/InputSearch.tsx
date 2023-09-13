@@ -1,90 +1,53 @@
 import { useEffect, useState } from "react";
 import fetchSearch from "../../../utils/fetchSearch";
 import { endpoints } from "../../../endpoints";
-import FocusTrap from "focus-trap-react";
 import "./inputSearch.css";
+import { Autocomplete, TextField } from "@mui/material";
 
 interface props {
 	changeLocation(location: string): void;
-	placeholder: string;
+	label: string;
 	id: string;
 }
 
 type searchType = {
-	city: string;
+	name: string;
 	countryName: string;
 	iataCode: string;
-	name: string;
+	city: string;
 };
 
-function InputSearch({ changeLocation, placeholder, id }: props) {
-	const [searchResults, setSearchResults] = useState<searchType[]>();
-	const [inputValue, setInputValue] = useState<string>("");
-	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const [isSelectedChange, setIsSelectedChange] = useState<boolean>(false);
+function InputSearch({ label, id, changeLocation }: props) {
+	const [searchResults, setSearchResults] = useState<searchType[]>([]);
+	const [value, setValue] = useState<searchType | null>(null);
 
 	useEffect(() => {
-		const delayFn = setTimeout(async () => {
-			if (!isSelectedChange && isOpen && inputValue.length !== 0) {
-				setSearchResults(
-					await fetchSearch(endpoints.airport_code, inputValue).catch((err) => console.log(err))
-				);
-				setIsSelectedChange(false);
-			}
-		}, 1000);
-		return () => clearTimeout(delayFn);
-	}, [inputValue, isSelectedChange, isOpen]);
-
-	function handleAirportClick(airport: searchType) {
-		changeLocation(airport.iataCode);
-		setInputValue(airport.city);
-		setIsOpen(false);
-		setIsSelectedChange(true);
-	}
+		console.log(value?.iataCode);
+		value && changeLocation(value.iataCode);
+	});
 
 	return (
 		<div className="inputContainer" id={id}>
-			<input
-				placeholder={placeholder}
-				className="inputControl"
-				value={inputValue}
-				type="text"
-				onChange={(e) => setInputValue(e.target.value)}
-				onClick={() => setIsOpen(true)}
-			/>
-
-			{isOpen && (
-				<FocusTrap
-					focusTrapOptions={{
-						initialFocus: false,
-						allowOutsideClick: true,
-						clickOutsideDeactivates: true,
-						onDeactivate: () => setIsOpen(false),
-					}}
-				>
-					<div className="info_container">
-						{searchResults?.length ? (
-							searchResults.map((airport, index) => (
-								<p
-									tabIndex={0}
-									key={index}
-									className="info"
-									onClick={() => handleAirportClick(airport)}
-								>
-									{airport.city}{" "}
-									<span>
-										{airport.name} ({airport.iataCode})
-									</span>
-								</p>
-							))
-						) : (
-							<p tabIndex={0} className="info nothing">
-								Nothing to show...
-							</p>
-						)}
-					</div>
-				</FocusTrap>
-			)}
+			<Autocomplete
+				onInputChange={async (event, newValue) => {
+					console.log(newValue);
+					if (newValue.length > 2) {
+						const res = await fetchSearch(endpoints.airport_code, newValue).catch((err) =>
+							console.log(err)
+						);
+						res && setSearchResults(res);
+					}
+				}}
+				onChange={(event, newValue) => {
+					setValue(newValue);
+				}}
+				value={value}
+				noOptionsText="Non c'è nulla da mostrare "
+				options={searchResults && searchResults}
+				getOptionLabel={(option) => `${option.city} (${option.name}) - ${option.countryName}`}
+				renderInput={(params) => <TextField {...params} required label={label}></TextField>}
+				filterOptions={(x) => x}
+			></Autocomplete>
 		</div>
 	);
 }

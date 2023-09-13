@@ -27,6 +27,14 @@
 	justify-content: space-evenly;
 	align-items: center;
 }
+.buttonsContainer > button:disabled {
+	border-color: rgba(255, 113, 36, 0.38);
+	color: rgba(255, 113, 36, 0.38);
+	&:hover {
+		background-color: rgba(255, 113, 36, 0.38);
+		cursor: not-allowed;
+	}
+}
 .buttonsContainer > button,
 .buttonsContainer > p {
 	--button-dimension: 25px;

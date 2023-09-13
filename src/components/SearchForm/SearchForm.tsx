@@ -3,6 +3,12 @@ import InputSearch from "./inputSearch/InputSearch";
 import Options from "./options/Options";
 import { useState } from "react";
 import "./SearchForm.css";
+import { endpoints } from "../../endpoints";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { it } from "date-fns/locale";
+import { format } from "date-fns";
+import { Button, Paper } from "@mui/material";
 
 interface props {
 	submitPassUrl(argUrl: string): void;
@@ -11,8 +17,8 @@ interface props {
 const SearchForm = ({ submitPassUrl }: props) => {
 	const [departure, setDeparture] = useState<string>();
 	const [destination, setDestination] = useState<string>();
-	const [departureDate, setDepartureDate] = useState<string>();
-	const [returnDate, setReturnDate] = useState<string>();
+	const [departureDate, setDepartureDate] = useState<Date>();
+	const [returnDate, setReturnDate] = useState<Date>();
 	const [adults, setAdults] = useState<number>(1);
 	const [children, setChildren] = useState<number>(0);
 
@@ -24,8 +30,10 @@ const SearchForm = ({ submitPassUrl }: props) => {
 		setDestination(location);
 	}
 
-	function changeDate(dateOfDeparture?: string, dateOfReturn?: string) {
+	function changeDepartureDate(dateOfDeparture: Date) {
 		setDepartureDate(dateOfDeparture);
+	}
+	function changeReturnDate(dateOfReturn: Date) {
 		setReturnDate(dateOfReturn);
 	}
 
@@ -36,37 +44,68 @@ const SearchForm = ({ submitPassUrl }: props) => {
 
 	function submitHandler(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-
-		console.log(departure, destination, departureDate, returnDate, adults, children);
-		const url = `http://localhost:3000/flights?from=${departure}&to=${destination}&departureDate=${departureDate}&returnDate=${returnDate}&adults=${adults}&children=${children}`;
+		const formatedDepartureDate = format(departureDate!, "yyyy-MM-dd");
+		const formattedReturnDate = format(returnDate!, "yyyy-MM-dd");
+		console.log(
+			departure,
+			destination,
+			formatedDepartureDate,
+			formattedReturnDate,
+			adults,
+			children
+		);
+		const url = `${endpoints.flight_data}from=${departure}&to=${destination}&departureDate=${formatedDepartureDate}&returnDate=${formattedReturnDate}&adults=${adults}&children=${children}`;
 		submitPassUrl(url);
 	}
 
 	return (
 		<form onSubmit={submitHandler}>
-			<div className="searchFrame">
-				<InputSearch
-					id="departureLocation"
-					placeholder="Departure Airport"
-					changeLocation={(location) => changeDeparture(location)}
-				></InputSearch>
+			<Paper className="searchFrame" elevation={4} sx={{ borderRadius: 3 }}>
+				<LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={it}>
+					<InputSearch
+						id="departureLocation"
+						label="Aereoporto partenza"
+						changeLocation={(location) => changeDeparture(location)}
+					></InputSearch>
 
-				<InputSearch
-					id="destinationLocation"
-					placeholder="Destination"
-					changeLocation={changeDestination}
-				></InputSearch>
+					<InputSearch
+						id="destinationLocation"
+						label="Aereoporto destinazione"
+						changeLocation={changeDestination}
+					></InputSearch>
 
-				<Calendar passDate={changeDate}></Calendar>
+					<Calendar
+						isRequired={true}
+						gridArea="departureDate"
+						label="Data di partenza"
+						stateDate={departureDate!}
+						changeStateDate={changeDepartureDate}
+					></Calendar>
 
-				<Options changePeopleNumber={changePeopleNumberCallback}></Options>
+					<Calendar
+						isRequired={false}
+						gridArea="returnDate"
+						label="Data di ritorno"
+						stateDate={returnDate!}
+						changeStateDate={changeReturnDate}
+					></Calendar>
 
-				<div className="inputContainer" id="searchButton">
-					<button className="inputControl btn" type="submit">
+					<Options changePeopleNumber={changePeopleNumberCallback}></Options>
+
+					<Button
+						type="submit"
+						id="searchButton"
+						variant="contained"
+						fullWidth
+						sx={{
+							height: "100%",
+							fontSize: "1rem",
+						}}
+					>
 						Cerca
-					</button>
-				</div>
-			</div>
+					</Button>
+				</LocalizationProvider>
+			</Paper>
 		</form>
 	);
 };

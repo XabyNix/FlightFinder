@@ -1,20 +1,20 @@
 .container {
 	--box-color: rgba(0, 0, 0, 0.1);
 	display: flex;
-	border: 1px solid var(--box-color);
 	justify-content: space-around;
 	background: white;
-	margin: 2rem auto;
+	/* margin: 2rem auto;
+	border: 1px solid var(--box-color);
 	max-width: calc(600px + 10vw);
 	box-shadow: var(--main-box-shadow);
-	padding: 1rem 1.5rem;
+	padding: 1rem 1.5rem; */
 }
 .leftSide {
 	display: flex;
 	align-items: center;
 }
 .hourDestination {
-	margin: 1rem;
+	margin: 0 1rem;
 	display: flex;
 	flex-direction: column;
 }
@@ -33,13 +33,4 @@
 .rightSide p {
 	font-size: x-large;
 	margin-bottom: 0.5rem;
-}
-
-.btnSelect {
-	padding: 0.4rem 0.8rem;
-	font-size: large;
-	font-weight: bold;
-	border-radius: 7px;
-	outline: none;
-	border: none;
 }

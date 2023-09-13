@@ -1,51 +1,54 @@
 import "./Results.css";
 import "../SearchForm/SearchForm.css";
 import { Flight, CityInfo } from "../../App";
-import { format } from "date-fns";
-import { it } from "date-fns/locale";
+import { Box } from "@mui/material";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import FlightModal from "../flightModal/FlightModal";
+import * as type from "../../common/types.ts"
+/* import { format } from "date-fns";
+import { it } from "date-fns/locale"; */
 
-interface prop {
-	data: Flight;
-	cityInfo: CityInfo;
-}
-
-const Results = ({ data, cityInfo }: prop) => {
+const Results = (prop:) => {
 	const arrow = "--->>>";
 	const formatString = "dd-MM-yyyy 'alle' HH:mm";
 
-	const newDepartureDate = new Date(data.departure.time);
+	/* const newDepartureDate = new Date(data.departure.time);
 	const newArrivalDate = new Date(data.arrival.time);
 
 	const departureDate = format(newDepartureDate, formatString, { locale: it });
 
-	const arrivalDate = format(newArrivalDate, formatString);
+	const arrivalDate = format(newArrivalDate, formatString); */
 	return (
-		<div className="container">
-			<div className="leftSide">
+		<Box
+			display="flex"
+			flexWrap="wrap"
+			flexDirection={{ xs: "column", md: "row" }}
+			justifyContent="space-between"
+			px={3}
+		>
+			<Box
+				className="leftSide"
+				textAlign={{ xs: "center", md: "start" }}
+				justifyContent={{ xs: "center" }}
+			>
 				<div className="hourDestination">
-					<p>
-						{cityInfo[data.departure.code].name} ({data.departure.code})
-					</p>
-					<h4>{departureDate}</h4>
+					<p>CATANIA - CTA{/* {cityInfo[data.departure.code].name} ({data.departure.code}) */}</p>
+					<h4>30-05-2024 alle 06:02{/* {departureDate} */}</h4>
 				</div>
 				<div className="hourDestination">
-					<p>{arrow}</p>
-					<p>{data.duration}</p>
+					<KeyboardDoubleArrowRightIcon />
+					<p>1H{/* {data.duration} */}</p>
 				</div>
 				<div className="hourDestination">
-					<p>
-						{cityInfo[data.arrival.code].name} ({data.arrival.code})
-					</p>
-					<h4>{arrivalDate}</h4>
+					<p>MILANO - MXP{/* {cityInfo[data.arrival.code].name} ({data.arrival.code}) */}</p>
+					<h4>30-05-2024 alle 07:02{/* {arrivalDate} */}</h4>
 				</div>
-			</div>
+			</Box>
 			<div className="rightSide">
-				<p className="price">{data.price.total}</p>
-				<button type="button" className="btn btnSelect">
-					Seleziona
-				</button>
+				<p className="price">102,02{/* {data.price.total} */}</p>
+				<FlightModal />
 			</div>
-		</div>
+		</Box>
 	);
 };
 

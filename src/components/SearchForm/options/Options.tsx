@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import FocusTrap from "focus-trap-react";
 import "./options.css";
+import { Button } from "@mui/material";
 
 interface adultType {
 	changePeopleNumber(bigPeople: number, littlePeople: number): void;
@@ -17,10 +18,15 @@ const Options = ({ changePeopleNumber }: adultType) => {
 
 	return (
 		<div className="inputContainer" id="personNumber">
-			<p
-				className="inputControl optionButton"
+			<Button
+				fullWidth
+				variant="outlined"
+				size="large"
 				onClick={() => setIsVisible(!isVisible)}
-			>{`${adults} adulti - ${children} bambini`}</p>
+				sx={{
+					height: "100%",
+				}}
+			>{`Adulti: ${adults} - Bambini: ${children}`}</Button>
 
 			{isVisible && (
 				<FocusTrap
