@@ -4,12 +4,11 @@ import { Flight, CityInfo } from "../../App";
 import { Box } from "@mui/material";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import FlightModal from "../flightModal/FlightModal";
-import * as type from "../../common/types.ts"
+import * as type from "../../common/types.ts";
 /* import { format } from "date-fns";
 import { it } from "date-fns/locale"; */
 
-const Results = (prop:) => {
-	const arrow = "--->>>";
+const Results = (prop: type.Daum) => {
 	const formatString = "dd-MM-yyyy 'alle' HH:mm";
 
 	/* const newDepartureDate = new Date(data.departure.time);
