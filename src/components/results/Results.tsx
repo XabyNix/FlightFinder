@@ -1,52 +1,74 @@
 import "./Results.css";
-import "../SearchForm/SearchForm.css";
-import { Flight, CityInfo } from "../../App";
 import { Box } from "@mui/material";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import FlightModal from "../flightModal/FlightModal";
 import * as type from "../../common/types.ts";
-/* import { format } from "date-fns";
-import { it } from "date-fns/locale"; */
+import format from "date-fns/format";
 
-const Results = (prop: type.Daum) => {
+interface prop {
+	data: type.Daum;
+	cityInfo: type.City;
+}
+
+const Results = ({ data, cityInfo }: prop) => {
 	const formatString = "dd-MM-yyyy 'alle' HH:mm";
 
-	/* const newDepartureDate = new Date(data.departure.time);
-	const newArrivalDate = new Date(data.arrival.time);
-
-	const departureDate = format(newDepartureDate, formatString, { locale: it });
-
-	const arrivalDate = format(newArrivalDate, formatString); */
 	return (
 		<Box
-			display="flex"
-			flexWrap="wrap"
-			flexDirection={{ xs: "column", md: "row" }}
-			justifyContent="space-between"
-			px={3}
+			sx={{
+				display: "grid",
+				gridTemplateColumns: { xs: "repeat(3, 1fr)", md: "repeat(3, 2fr) 1fr 2fr" },
+				rowGap: "1vh",
+				gridTemplateAreas: {
+					xs: ' "dep0 dur0 ret0" "dep1 dur1 ret1" "rs rs rs"',
+					md: ' "dep0 dur0 ret0 . rs" "dep1 dur1 ret1 . rs"',
+				},
+			}}
 		>
-			<Box
-				className="leftSide"
-				textAlign={{ xs: "center", md: "start" }}
-				justifyContent={{ xs: "center" }}
-			>
-				<div className="hourDestination">
-					<p>CATANIA - CTA{/* {cityInfo[data.departure.code].name} ({data.departure.code}) */}</p>
-					<h4>30-05-2024 alle 06:02{/* {departureDate} */}</h4>
-				</div>
-				<div className="hourDestination">
-					<KeyboardDoubleArrowRightIcon />
-					<p>1H{/* {data.duration} */}</p>
-				</div>
-				<div className="hourDestination">
-					<p>MILANO - MXP{/* {cityInfo[data.arrival.code].name} ({data.arrival.code}) */}</p>
-					<h4>30-05-2024 alle 07:02{/* {arrivalDate} */}</h4>
-				</div>
-			</Box>
-			<div className="rightSide">
-				<p className="price">102,02{/* {data.price.total} */}</p>
+			{data.itineraries.flatMap((value, index) => {
+				const departureTime = value.segments[0].departure.at;
+				const returnTime = value.segments[value.segments.length - 1].arrival.at;
+				const departureLocation =
+					cityInfo[value.segments[0].departure.iataCode].name +
+					" - " +
+					value.segments[0].departure.iataCode;
+				const returnLocation =
+					cityInfo[value.segments[value.segments.length - 1].arrival.iataCode].name +
+					" - " +
+					value.segments[value.segments.length - 1].arrival.iataCode;
+				const departureDateTime = new Date(departureTime);
+				const returnDateTime = new Date(returnTime);
+				return [
+					<Box
+						key={`departure-${index}`}
+						sx={{ gridArea: `dep${index}` }}
+						className="hourDestination"
+					>
+						<p>{departureLocation}</p>
+						<h4>{format(departureDateTime, formatString)}</h4>
+					</Box>,
+					<Box
+						key={`duration-${index}`}
+						sx={{ gridArea: `dur${index}`, alignItems: "center" }}
+						className="hourDestination"
+					>
+						<KeyboardDoubleArrowRightIcon />
+						<p>{value.duration}</p>
+					</Box>,
+
+					<Box key={`return-${index}`} sx={{ gridArea: `ret${index}` }} className="hourDestination">
+						<p>{returnLocation}</p>
+						<h4>{format(returnDateTime, formatString)}</h4>
+					</Box>,
+				];
+			})}
+
+			<Box className="rightSide" gridArea="rs">
+				<p className="price">
+					{data.price.total} {data.price.currency}
+				</p>
 				<FlightModal />
-			</div>
+			</Box>
 		</Box>
 	);
 };

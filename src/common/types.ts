@@ -110,22 +110,10 @@ export interface IncludedCheckedBags {
 }
 
 export interface City {
-	MXP: Mxp;
-	LGA: Lga;
-	ATL: Atl;
+	[key: string]: CityDetail;
 }
 
-export interface Mxp {
-	name: string;
-	country: string;
-}
-
-export interface Lga {
-	name: string;
-	country: string;
-}
-
-export interface Atl {
+export interface CityDetail {
 	name: string;
 	country: string;
 }
