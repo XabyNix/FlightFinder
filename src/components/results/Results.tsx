@@ -4,6 +4,7 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import FlightModal from "../flightModal/FlightModal";
 import * as type from "../../common/types.ts";
 import format from "date-fns/format";
+import { flightContext } from "../../common/contexts.ts";
 
 interface prop {
 	data: type.Daum;
@@ -28,14 +29,17 @@ const Results = ({ data, cityInfo }: prop) => {
 			{data.itineraries.flatMap((value, index) => {
 				const departureTime = value.segments[0].departure.at;
 				const returnTime = value.segments[value.segments.length - 1].arrival.at;
+
 				const departureLocation =
-					cityInfo[value.segments[0].departure.iataCode].name +
+					cityInfo[value.segments[0].departure.iataCode] +
 					" - " +
 					value.segments[0].departure.iataCode;
+
 				const returnLocation =
-					cityInfo[value.segments[value.segments.length - 1].arrival.iataCode].name +
+					cityInfo[value.segments[value.segments.length - 1].arrival.iataCode] +
 					" - " +
 					value.segments[value.segments.length - 1].arrival.iataCode;
+
 				const departureDateTime = new Date(departureTime);
 				const returnDateTime = new Date(returnTime);
 				return [
@@ -68,7 +72,9 @@ const Results = ({ data, cityInfo }: prop) => {
 				<p className="price">
 					{data.price.total} {data.price.currency}
 				</p>
-				<FlightModal />
+				<flightContext.Provider value={{ data, cityInfo }}>
+					<FlightModal />
+				</flightContext.Provider>
 			</Box>
 		</Box>
 	);

@@ -7,6 +7,8 @@ import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import * as type from "./common/types.ts";
 import { cyan } from "@mui/material/colors";
 import DataDisplay from "./components/dataDisplay/DataDisplay";
+/* import FlightModal from "./components/flightModal/FlightModal.tsx"; */
+import { dataContext } from "./common/contexts.ts";
 
 function App() {
 	const [resultPropsData, setResultPropsData] = useState<type.Root>();
@@ -19,6 +21,7 @@ function App() {
 			primary: cyan,
 		},
 	});
+
 	async function onSubmitHandler1(url: string) {
 		setIsLoading(true);
 		const response = await fetchSearch(url).catch((err) => {
@@ -42,10 +45,12 @@ function App() {
 			<div className="pageContainer">
 				<Navbar></Navbar>
 				<SearchForm submitPassUrl={onSubmitHandler1}></SearchForm>
-
-				{isLoading && <p>Loading...</p>}
-				{resultPropsData && <DataDisplay {...resultPropsData} />}
-				{isDataUndefined && <p>Non ci sono voli</p>}
+				<dataContext.Provider value={resultPropsData || null}>
+					{isLoading && <p>Loading...</p>}
+					{resultPropsData && <DataDisplay />}
+					{isDataUndefined && <p>Non ci sono voli</p>}
+					{/* <FlightModal></FlightModal> */}
+				</dataContext.Provider>
 			</div>
 		</ThemeProvider>
 	);

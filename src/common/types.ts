@@ -110,10 +110,5 @@ export interface IncludedCheckedBags {
 }
 
 export interface City {
-	[key: string]: CityDetail;
-}
-
-export interface CityDetail {
-	name: string;
-	country: string;
+	[key: string]: string;
 }

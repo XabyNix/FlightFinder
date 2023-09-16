@@ -1,15 +1,20 @@
 import { Container, Divider, Paper, Stack } from "@mui/material";
-import * as type from "../../common/types.ts";
 import Results from "../results/Results.tsx";
+import { useContext } from "react";
+import { dataContext } from "../../common/contexts.ts";
 
-function DataDisplay(props: type.Root) {
+/* props: type.Root */
+function DataDisplay() {
+	const dataFromContext = useContext(dataContext);
+	console.log(dataFromContext);
 	return (
 		<Container maxWidth="md" sx={{ marginTop: "1rem" }}>
 			<Paper variant="elevation" elevation={3} sx={{ p: 2 }}>
 				<Stack direction="column" divider={<Divider variant="middle" />} spacing={3}>
-					{props.data.map((flight, index) => {
-						return <Results key={index} data={flight} cityInfo={props.city}></Results>;
-					})}
+					{dataFromContext &&
+						dataFromContext.data.map((flight, index) => {
+							return <Results key={index} data={flight} cityInfo={dataFromContext.city}></Results>;
+						})}
 				</Stack>
 			</Paper>
 		</Container>

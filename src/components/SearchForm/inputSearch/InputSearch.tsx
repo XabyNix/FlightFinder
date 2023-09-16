@@ -22,7 +22,6 @@ function InputSearch({ label, id, changeLocation }: props) {
 	const [value, setValue] = useState<searchType | null>(null);
 
 	useEffect(() => {
-		console.log(value?.iataCode);
 		value && changeLocation(value.iataCode);
 	});
 
@@ -30,7 +29,6 @@ function InputSearch({ label, id, changeLocation }: props) {
 		<div className="inputContainer" id={id}>
 			<Autocomplete
 				onInputChange={async (event, newValue) => {
-					console.log(newValue);
 					if (newValue.length > 2) {
 						const res = await fetchSearch(endpoints.airport_code, newValue).catch((err) =>
 							console.log(err)
