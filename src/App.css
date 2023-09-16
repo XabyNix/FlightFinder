@@ -17,6 +17,9 @@ body {
 
 .pageContainer {
 	max-width: 1500px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	position: relative;
 	padding: 0 3vw;
 	margin: 0 auto;

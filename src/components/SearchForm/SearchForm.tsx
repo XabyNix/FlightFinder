@@ -45,7 +45,7 @@ const SearchForm = ({ submitPassUrl }: props) => {
 	function submitHandler(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		const formatedDepartureDate = format(departureDate!, "yyyy-MM-dd");
-		const formattedReturnDate = format(returnDate!, "yyyy-MM-dd");
+		const formattedReturnDate = returnDate ? format(returnDate, "yyyy-MM-dd") : undefined;
 		console.log(
 			departure,
 			destination,
@@ -54,7 +54,14 @@ const SearchForm = ({ submitPassUrl }: props) => {
 			adults,
 			children
 		);
-		const url = `${endpoints.flight_data}from=${departure}&to=${destination}&departureDate=${formatedDepartureDate}&returnDate=${formattedReturnDate}&adults=${adults}&children=${children}`;
+		const url =
+			endpoints.flight_data +
+			`from=${departure}` +
+			`&to=${destination}` +
+			`&departureDate=${formatedDepartureDate}` +
+			(returnDate ? `&returnDate=${formattedReturnDate}` : "") +
+			`&adults=${adults}` +
+			`&children=${children}`;
 		submitPassUrl(url);
 	}
 

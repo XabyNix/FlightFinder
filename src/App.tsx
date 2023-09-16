@@ -3,7 +3,7 @@ import Navbar from "./components/navbar/Navbar";
 import "./App.css";
 import { useState } from "react";
 import fetchSearch from "./utils/fetchSearch";
-import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import { CircularProgress, CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import * as type from "./common/types.ts";
 import { cyan } from "@mui/material/colors";
 import DataDisplay from "./components/dataDisplay/DataDisplay";
@@ -46,7 +46,7 @@ function App() {
 				<Navbar></Navbar>
 				<SearchForm submitPassUrl={onSubmitHandler1}></SearchForm>
 				<dataContext.Provider value={resultPropsData || null}>
-					{isLoading && <p>Loading...</p>}
+					{isLoading && <CircularProgress sx={{ margin: "auto" }}></CircularProgress>}
 					{resultPropsData && <DataDisplay />}
 					{isDataUndefined && <p>Non ci sono voli</p>}
 					{/* <FlightModal></FlightModal> */}
