@@ -52,6 +52,7 @@ const Results = ({ data, cityInfo }: prop) => {
 						sx={{ gridArea: `dur${index}`, alignItems: "center" }}
 						className="hourDestination"
 					>
+						{value.segments.length > 1 ? `${value.segments.length} scali` : "Diretto"}
 						<KeyboardDoubleArrowRightIcon />
 						<p>{value.duration}</p>
 					</Box>,
