@@ -90,11 +90,13 @@ const SearchForm = ({ submitPassUrl }: props) => {
 					></Calendar>
 
 					<Calendar
+						disabled={departureDate ? false : true}
 						isRequired={false}
 						gridArea="returnDate"
 						label="Data di ritorno"
 						stateDate={returnDate!}
 						changeStateDate={changeReturnDate}
+						minDate={departureDate}
 					></Calendar>
 
 					<Options changePeopleNumber={changePeopleNumberCallback}></Options>

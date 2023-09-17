@@ -9,6 +9,8 @@ interface props {
 	label: string;
 	stateDate: Date;
 	changeStateDate(from: Date): void;
+	minDate?: Date;
+	disabled?: boolean;
 }
 
 function Calendar(prop: props) {
@@ -17,12 +19,13 @@ function Calendar(prop: props) {
 	return (
 		<div className="inputContainer" id={prop.gridArea}>
 			<DatePicker
+				disabled={prop.disabled}
 				label={prop.label}
 				open={isOpen}
-				value={prop.stateDate}
-				onChange={(value) => value && prop.changeStateDate(value)}
+				onAccept={(value) => value && prop.changeStateDate(value)}
 				onClose={() => setIsOpen(false)}
 				disablePast
+				minDate={prop.minDate}
 				showDaysOutsideCurrentMonth
 				slotProps={{
 					textField: {

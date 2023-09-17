@@ -36,9 +36,9 @@ function FlightModal() {
 						}}
 					>
 						{flightData.data.itineraries.map((value, index) => (
-							<div>
+							<div key={index}>
 								{index === 0 ? "Partenza" : "Ritorno"}
-								{value.segments.flatMap((segment) => {
+								{value.segments.flatMap((segment, segmentIndex) => {
 									const depIataCode = segment.departure.iataCode;
 									const arrIataCode = segment.arrival.iataCode;
 
@@ -51,7 +51,7 @@ function FlightModal() {
 										: arrIataCode;
 
 									return [
-										<TimelineItem>
+										<TimelineItem key={`segment-${segmentIndex}-departure`}>
 											<TimelineSeparator>
 												<TimelineDot variant="outlined" color="primary"></TimelineDot>
 												<TimelineConnector />
@@ -61,8 +61,7 @@ function FlightModal() {
 												{format(new Date(segment.departure.at), "dd-MM-yyyy 'alle' HH:mm")}
 											</TimelineContent>
 										</TimelineItem>,
-										//Creare un componente per questi item in modo tale che non compaia l'ultimo connector
-										<TimelineItem>
+										<TimelineItem key={`segment-${segmentIndex}-arrival`}>
 											<TimelineSeparator>
 												<TimelineDot variant="outlined" color="primary"></TimelineDot>
 												<TimelineConnector
