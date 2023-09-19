@@ -1,12 +1,17 @@
 import { TimelineConnector, TimelineContent, TimelineDot, TimelineSeparator } from "@mui/lab";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem, { timelineItemClasses } from "@mui/lab/TimelineItem";
-import { Button, Dialog } from "@mui/material";
+import { Box, Button, Dialog } from "@mui/material";
 import { useContext, useState } from "react";
-import { flightContext } from "../../common/contexts";
+import { dictionariesContext } from "../../../common/contexts.ts";
 import { format } from "date-fns";
+import * as type from "../../../common/types.ts";
 
-function FlightModal() {
+interface prop {
+	flightData: type.Daum;
+}
+
+function FlightModal({ flightData }: prop) {
 	const [open, setOpen] = useState<boolean>(false);
 
 	function handleClickOpen() {
@@ -16,7 +21,7 @@ function FlightModal() {
 		setOpen(false);
 	}
 
-	const flightData = useContext(flightContext);
+	const dictionaries = useContext(dictionariesContext);
 
 	return (
 		<>
@@ -35,21 +40,30 @@ function FlightModal() {
 							},
 						}}
 					>
-						{flightData.data.itineraries.map((value, index) => (
+						{flightData.itineraries.map((value, index) => (
 							<div key={index}>
 								{index === 0 ? "Partenza" : "Ritorno"}
+
 								{value.segments.flatMap((segment, segmentIndex) => {
 									const depIataCode = segment.departure.iataCode;
-									const arrIataCode = segment.arrival.iataCode;
+									const retIataCode = segment.arrival.iataCode;
 
-									const departure = flightData.cityInfo[depIataCode]
-										? flightData.cityInfo[depIataCode]
-										: depIataCode;
-
-									const arrival = flightData.cityInfo[arrIataCode]
-										? flightData.cityInfo[arrIataCode]
-										: arrIataCode;
-
+									const dataToDisplay = {
+										departure: {
+											location: dictionaries?.locations[depIataCode]
+												? dictionaries.locations[depIataCode].cityName
+												: depIataCode,
+											date: format(new Date(segment.departure.at), "dd-MM-yyyy 'alle' HH:mm"),
+											company: dictionaries?.carriers[segment.carrierCode] || "N/A",
+										},
+										arrival: {
+											location: dictionaries?.locations[retIataCode]
+												? dictionaries.locations[retIataCode].cityName
+												: retIataCode,
+											date: format(new Date(segment.departure.at), "dd-MM-yyyy 'alle' HH:mm"),
+											company: dictionaries?.carriers[segment.carrierCode] || "N/A",
+										},
+									};
 									return [
 										<TimelineItem key={`segment-${segmentIndex}-departure`}>
 											<TimelineSeparator>
@@ -57,24 +71,30 @@ function FlightModal() {
 												<TimelineConnector />
 											</TimelineSeparator>
 											<TimelineContent>
-												{departure}
-												{format(new Date(segment.departure.at), "dd-MM-yyyy 'alle' HH:mm")}
+												{dataToDisplay.departure.location}
+												{dataToDisplay.departure.date}
+												{dataToDisplay.departure.company}
 											</TimelineContent>
 										</TimelineItem>,
 										<TimelineItem key={`segment-${segmentIndex}-arrival`}>
 											<TimelineSeparator>
 												<TimelineDot variant="outlined" color="primary"></TimelineDot>
-												<TimelineConnector
+												{/* <TimelineConnector
 													sx={{
 														background: "none",
 														border: "1px #bdbdbd dashed",
 													}}
-												/>
+												/> */}
 											</TimelineSeparator>
-											<TimelineContent>{arrival}</TimelineContent>
+											<TimelineContent>
+												{dataToDisplay.arrival.location}
+												{dataToDisplay.arrival.date}
+												{dataToDisplay.arrival.company}
+											</TimelineContent>
 										</TimelineItem>,
 									];
 								})}
+								<Box></Box>
 							</div>
 						))}
 					</Timeline>

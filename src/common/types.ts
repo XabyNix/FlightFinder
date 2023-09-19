@@ -1,6 +1,6 @@
 export interface Root {
 	data: Daum[];
-	city: City;
+	dictionaries: Dictionaries;
 }
 
 export interface Daum {
@@ -40,13 +40,13 @@ export interface Segment {
 
 export interface Departure {
 	iataCode: string;
-	terminal: string;
+	terminal?: string;
 	at: string;
 }
 
 export interface Arrival {
 	iataCode: string;
-	terminal: string;
+	terminal?: string;
 	at: string;
 }
 
@@ -64,7 +64,7 @@ export interface Price {
 	base: string;
 	fees: Fee[];
 	grandTotal: string;
-	additionalServices: AdditionalService[];
+	additionalServices?: AdditionalService[];
 }
 
 export interface Fee {
@@ -102,13 +102,43 @@ export interface FareDetailsBySegment {
 	fareBasis: string;
 	brandedFare: string;
 	class: string;
-	includedCheckedBags?: IncludedCheckedBags;
+	includedCheckedBags: IncludedCheckedBags;
 }
 
 export interface IncludedCheckedBags {
 	quantity: number;
 }
 
+export interface Dictionaries {
+	locations: Locations;
+	aircraft: Aircraft2;
+	currencies: Currencies;
+	carriers: Carriers;
+}
+
+export interface Locations {
+	[key: string]: City;
+}
+
 export interface City {
+	cityCode: string;
+	countryCode: string;
+	cityName?: string;
+}
+
+export interface Aircraft2 {
+	"320": string;
+	"339": string;
+	"32Q": string;
+	"7M8": string;
+	"75T": string;
+	"32N": string;
+}
+
+export interface Currencies {
+	EUR: string;
+}
+
+export interface Carriers {
 	[key: string]: string;
 }

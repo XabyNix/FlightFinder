@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import fetchSearch from "../../../utils/fetchSearch";
-import { endpoints } from "../../../endpoints";
+import { endpoints } from "../../../common/endpoints";
 import "./inputSearch.css";
 import { Autocomplete, TextField } from "@mui/material";
 /* import { setTimeout } from "timers/promises"; */

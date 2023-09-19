@@ -2,6 +2,7 @@ import { useState } from "react";
 import "react-day-picker/dist/style.css";
 import "./calendar.css";
 import { DatePicker } from "@mui/x-date-pickers";
+import useTheme from "@mui/material/styles/useTheme";
 
 interface props {
 	isRequired: boolean;
@@ -15,13 +16,14 @@ interface props {
 
 function Calendar(prop: props) {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-
+	const theme = useTheme();
 	return (
 		<div className="inputContainer" id={prop.gridArea}>
 			<DatePicker
 				disabled={prop.disabled}
 				label={prop.label}
 				open={isOpen}
+				desktopModeMediaQuery={theme.breakpoints.up("md")}
 				onAccept={(value) => value && prop.changeStateDate(value)}
 				onClose={() => setIsOpen(false)}
 				disablePast

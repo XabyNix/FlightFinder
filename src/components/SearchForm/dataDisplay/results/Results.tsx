@@ -1,18 +1,19 @@
 import "./Results.css";
 import { Box } from "@mui/material";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import FlightModal from "../flightModal/FlightModal";
-import * as type from "../../common/types.ts";
+import FlightModal from "../../flightModal/FlightModal.tsx";
+import * as type from "../../../../common/types.ts";
 import format from "date-fns/format";
-import { flightContext } from "../../common/contexts.ts";
+import { dictionariesContext } from "../../../../common/contexts.ts";
+import { useContext } from "react";
 
 interface prop {
 	data: type.Daum;
-	cityInfo: type.City;
 }
 
-const Results = ({ data, cityInfo }: prop) => {
+const Results = ({ data }: prop) => {
 	const formatString = "dd-MM-yyyy 'alle' HH:mm";
+	const dictionaries = useContext(dictionariesContext);
 
 	return (
 		<Box
@@ -31,12 +32,13 @@ const Results = ({ data, cityInfo }: prop) => {
 				const returnTime = value.segments[value.segments.length - 1].arrival.at;
 
 				const departureLocation =
-					cityInfo[value.segments[0].departure.iataCode] +
+					dictionaries?.locations[value.segments[0].departure.iataCode].cityName +
 					" - " +
 					value.segments[0].departure.iataCode;
 
 				const returnLocation =
-					cityInfo[value.segments[value.segments.length - 1].arrival.iataCode] +
+					dictionaries?.locations[value.segments[value.segments.length - 1].arrival.iataCode]
+						.cityName +
 					" - " +
 					value.segments[value.segments.length - 1].arrival.iataCode;
 
@@ -56,7 +58,7 @@ const Results = ({ data, cityInfo }: prop) => {
 						sx={{ gridArea: `dur${index}`, alignItems: "center" }}
 						className="hourDestination"
 					>
-						{value.segments.length > 1 ? `${value.segments.length} scali` : "Diretto"}
+						{data.oneWay ? "Diretto" : `${value.segments.length} scali`}
 						<KeyboardDoubleArrowRightIcon />
 						<p>{value.duration}</p>
 					</Box>,
@@ -72,9 +74,8 @@ const Results = ({ data, cityInfo }: prop) => {
 				<p className="price">
 					{data.price.total} {data.price.currency}
 				</p>
-				<flightContext.Provider value={{ data, cityInfo }}>
-					<FlightModal />
-				</flightContext.Provider>
+
+				<FlightModal flightData={data} />
 			</Box>
 		</Box>
 	);

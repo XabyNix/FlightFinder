@@ -3,7 +3,7 @@ import InputSearch from "./inputSearch/InputSearch";
 import Options from "./options/Options";
 import { useState } from "react";
 import "./SearchForm.css";
-import { endpoints } from "../../endpoints";
+import { endpoints } from "../../common/endpoints";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { it } from "date-fns/locale";
@@ -67,7 +67,7 @@ const SearchForm = ({ submitPassUrl }: props) => {
 
 	return (
 		<form onSubmit={submitHandler}>
-			<Paper className="searchFrame" elevation={4} sx={{ borderRadius: 3 }}>
+			<Paper className="searchFrame" elevation={4} sx={{ borderRadius: 3, marginY: "2rem" }}>
 				<LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={it}>
 					<InputSearch
 						id="departureLocation"
