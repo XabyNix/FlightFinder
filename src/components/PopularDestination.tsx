@@ -49,7 +49,6 @@ function PopularDestination(props: prop) {
 						...styleImage,
 						gridColumn: "2",
 						gridRow: "2 / 4",
-
 						backgroundImage: `url(${props.imgTwo})`,
 					}}
 				></Box>

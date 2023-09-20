@@ -2,7 +2,7 @@ import SearchForm from "./components/SearchForm/SearchForm";
 import Navbar from "./components/navbar/Navbar";
 import { useState } from "react";
 import fetchSearch from "./utils/fetchSearch";
-import { CircularProgress, CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import { Box, CircularProgress, CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import * as type from "./common/types.ts";
 import DataDisplay from "./components/SearchForm/dataDisplay/DataDisplay.tsx";
 import { dataContext } from "./common/contexts.ts";
@@ -16,6 +16,7 @@ import newYork from "./assets/istockphoto-1406960186-612x612.jpg";
 import roma from "./assets/istockphoto-539115110-612x612.jpg";
 import bahamas from "./assets/bahamas.jpg";
 import parigi from "./assets/parigi.jpg";
+import Cards from "./components/cards/Cards.tsx";
 
 function App() {
 	const [resultPropsData, setResultPropsData] = useState<type.Root>();
@@ -85,9 +86,10 @@ function App() {
 			<CssBaseline />
 			<Navbar></Navbar>
 			<MainBgImage></MainBgImage>
-			<div className="pageContainer">
+			<Box className="pageContainer">
 				<Main></Main>
 				<SearchForm submitPassUrl={onSubmitHandler1}></SearchForm>
+
 				<dataContext.Provider value={resultPropsData || null}>
 					{isLoading && <CircularProgress sx={{ margin: "auto" }}></CircularProgress>}
 					{resultPropsData && <DataDisplay />}
@@ -95,7 +97,8 @@ function App() {
 				</dataContext.Provider>
 				<PopularDestination {...popularData1}></PopularDestination>
 				<PopularDestination {...popularData2} reverse={true}></PopularDestination>
-			</div>
+				<Cards></Cards>
+			</Box>
 		</ThemeProvider>
 	);
 }

@@ -25,6 +25,7 @@ import { useState } from "react";
 type Icons = {
 	[key: string]: JSX.Element;
 };
+
 const Navbar = () => {
 	const pages = ["Home", "About us", "Register", "Log In"];
 	const icons: Icons = {
@@ -57,7 +58,7 @@ const Navbar = () => {
 			}}
 		>
 			<Toolbar variant="regular" sx={{ justifyContent: "space-between" }}>
-				<Typography variant="h3" fontFamily={"Croissant One"}>
+				<Typography variant="h3" fontFamily={"Croissant One"} sx={{ fontSize: { xs: "2rem" } }}>
 					Travel With Us
 				</Typography>
 				<Box onClick={() => toggleDrawer(!isOpen)} sx={{ display: { xs: "block", md: "none" } }}>
@@ -87,21 +88,13 @@ const Navbar = () => {
 				</Drawer>
 
 				<Box sx={{ display: { xs: "none", md: "flex" } }}>
-					<Box>
-						{pages.map((page) => (
-							<Button color="secondary" key={page}>
-								{icons[page]}
-								{page}
-							</Button>
-						))}
-					</Box>
-					<Divider variant="middle" flexItem orientation="vertical"></Divider>
-					<Box>
-						<Button color="secondary">Registrati</Button>
-						<Button color="secondary" variant="contained" disableElevation>
-							Log in
-						</Button>
-					</Box>
+					{pages.flatMap((page) => [
+						page === "Register" && <Divider flexItem orientation="vertical"></Divider>,
+						<Button color="secondary" key={page}>
+							{icons[page]}
+							{page}
+						</Button>,
+					])}
 				</Box>
 			</Toolbar>
 		</AppBar>
