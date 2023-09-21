@@ -11,19 +11,20 @@ import MainBgImage from "./components/MainBgImage.tsx";
 import Main from "./components/Main.tsx";
 import "./App.css";
 import PopularDestination from "./components/PopularDestination.tsx";
-import { popular } from "./common/localesPhrases.ts";
-import newYork from "./assets/istockphoto-1406960186-612x612.jpg";
-import roma from "./assets/istockphoto-539115110-612x612.jpg";
-import bahamas from "./assets/bahamas.jpg";
-import parigi from "./assets/parigi.jpg";
 import Cards from "./components/cards/Cards.tsx";
-
+import Footer from "./components/Footer.tsx";
+/* 
+Creare route per le varie pagine e aggiungere la lista dei voli in una nuova route in modo da usare anche
+ l'ordinamento
+ Aggiungere che quando si clicca sul pulsante ci si sposta direttamente alla ricerca e quando si clicca sul form
+ ci si sposta atuomaticamente su di esso.
+*/
 function App() {
 	const [resultPropsData, setResultPropsData] = useState<type.Root>();
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isDataUndefined, setIsDataUndefined] = useState<boolean>(false);
 
-	const myTheme = createTheme({
+	let theme = createTheme({
 		components: {
 			MuiButtonBase: {
 				defaultProps: {
@@ -47,25 +48,20 @@ function App() {
 			h4: {
 				fontWeight: 600,
 			},
-			subtitle1: { color: "GrayText" },
 		},
 	});
 
-	const popularData1 = {
-		title: popular[0].title,
-		paragraph: popular[0].paragraph,
-		imgOne: roma,
-		imgTwo: newYork,
-	};
-	const popularData2 = {
-		title: popular[1].title,
-		paragraph: popular[1].paragraph,
-		imgOne: parigi,
-		imgTwo: bahamas,
-	};
+	theme = createTheme(theme, {
+		palette: {
+			myGray: {
+				main: "#8a8888",
+			},
+		},
+	});
 
 	async function onSubmitHandler1(url: string) {
 		setIsLoading(true);
+		setIsDataUndefined(false);
 		const response = await fetchSearch(url).catch((err) => {
 			console.log(err);
 		});
@@ -73,7 +69,6 @@ function App() {
 		if (Object.keys(response.data).length === 0) {
 			setIsDataUndefined(true);
 		} else {
-			setIsDataUndefined(false);
 			setResultPropsData(response.data);
 		}
 
@@ -82,7 +77,7 @@ function App() {
 	}
 
 	return (
-		<ThemeProvider theme={myTheme}>
+		<ThemeProvider theme={theme}>
 			<CssBaseline />
 			<Navbar></Navbar>
 			<MainBgImage></MainBgImage>
@@ -95,10 +90,11 @@ function App() {
 					{resultPropsData && <DataDisplay />}
 					{isDataUndefined && <p>Non ci sono voli</p>}
 				</dataContext.Provider>
-				<PopularDestination {...popularData1}></PopularDestination>
-				<PopularDestination {...popularData2} reverse={true}></PopularDestination>
+
+				<PopularDestination></PopularDestination>
 				<Cards></Cards>
 			</Box>
+			<Footer></Footer>
 		</ThemeProvider>
 	);
 }

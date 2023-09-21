@@ -41,10 +41,23 @@ const Navbar = () => {
 		setIsOpen(toggle);
 	}
 
+	function buttonChooser(page: string) {
+		switch (page) {
+			case "Log In":
+				return "contained";
+
+			case "Register":
+				return "outlined";
+
+			default:
+				break;
+		}
+	}
+
 	return (
 		<AppBar
 			variant="elevation"
-			elevation={6}
+			elevation={15}
 			position="fixed"
 			color="secondary"
 			sx={{
@@ -89,8 +102,10 @@ const Navbar = () => {
 
 				<Box sx={{ display: { xs: "none", md: "flex" } }}>
 					{pages.flatMap((page) => [
-						page === "Register" && <Divider flexItem orientation="vertical"></Divider>,
-						<Button color="secondary" key={page}>
+						page === "Register" && (
+							<Divider key={`divider${page}`} flexItem orientation="vertical"></Divider>
+						),
+						<Button variant={buttonChooser(page)} color="secondary" key={page} sx={{ marginX: 1 }}>
 							{icons[page]}
 							{page}
 						</Button>,

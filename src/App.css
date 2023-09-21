@@ -16,12 +16,12 @@ body {
 }
 
 .pageContainer {
-	max-width: 1500px;
+	max-width: 1200px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	position: relative;
 	top: 0;
 	padding: 0 3vw;
-	margin: 0 auto;
+	margin: 0 auto 5rem;
 }
