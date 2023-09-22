@@ -22,7 +22,7 @@ function Footer() {
 			color={(theme) => theme.palette.primary.contrastText}
 			paddingY={3}
 		>
-			<Stack direction={"row"} justifyContent={"center"}>
+			<Stack direction={{ xs: "column", md: "row" }} justifyContent={"center"}>
 				{links.map((link, index) => (
 					<Button key={index}>
 						<Typography color={"secondary"} variant="subtitle2">
@@ -31,10 +31,18 @@ function Footer() {
 					</Button>
 				))}
 			</Stack>
-			<Stack direction={"row"} spacing={3} justifyContent={"center"} useFlexGap>
+
+			<Stack
+				direction={{ xs: "column", md: "row" }}
+				spacing={3}
+				justifyContent="center"
+				textAlign="center"
+				useFlexGap
+			>
 				<Typography variant="caption">{indirizzo}</Typography>
 				<Typography variant="caption">{contatti}</Typography>
 			</Stack>
+
 			<Stack direction={"row"} justifyContent={"center"}>
 				{icons.map((icon, index) => (
 					<IconButton key={index}>{icon}</IconButton>

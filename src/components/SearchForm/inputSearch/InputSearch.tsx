@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import fetchSearch from "../../../utils/fetchSearch";
 import { endpoints } from "../../../common/endpoints";
-import "./inputSearch.css";
-import { Autocomplete, TextField } from "@mui/material";
-/* import { setTimeout } from "timers/promises"; */
+import { Autocomplete, Box, TextField } from "@mui/material";
 
 interface props {
 	changeLocation(location: string): void;
 	label: string;
-	id: string;
+	area: string;
 }
 
 type searchType = {
@@ -18,7 +16,7 @@ type searchType = {
 	city: string;
 };
 
-function InputSearch({ label, id, changeLocation }: props) {
+function InputSearch({ label, area, changeLocation }: props) {
 	const [options, setOptions] = useState<searchType[]>([]);
 	const [inputValue, setInputValue] = useState<string>("");
 
@@ -29,12 +27,12 @@ function InputSearch({ label, id, changeLocation }: props) {
 			);
 			res && setOptions(res);
 		}
-		console.log(options);
+
 		inputValue.length > 0 && fetching();
 	}, [inputValue]);
 
 	return (
-		<div className="inputContainer" id={id}>
+		<Box position={"relative"} gridArea={area}>
 			<Autocomplete
 				onInputChange={(_, value, reason) => {
 					reason === "input" && setInputValue(value);
@@ -48,7 +46,7 @@ function InputSearch({ label, id, changeLocation }: props) {
 				renderInput={(params) => <TextField {...params} required label={label}></TextField>}
 				filterOptions={(x) => x}
 			></Autocomplete>
-		</div>
+		</Box>
 	);
 }
 

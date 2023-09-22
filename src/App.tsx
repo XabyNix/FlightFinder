@@ -1,29 +1,40 @@
-import SearchForm from "./components/SearchForm/SearchForm";
 import Navbar from "./components/navbar/Navbar";
-import { useState } from "react";
-import fetchSearch from "./utils/fetchSearch";
-import { Box, CircularProgress, CssBaseline, ThemeProvider, createTheme } from "@mui/material";
-import * as type from "./common/types.ts";
-import DataDisplay from "./components/SearchForm/dataDisplay/DataDisplay.tsx";
-import { dataContext } from "./common/contexts.ts";
+import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import { teal } from "@mui/material/colors";
-import MainBgImage from "./components/MainBgImage.tsx";
-import Main from "./components/Main.tsx";
-import "./App.css";
-import PopularDestination from "./components/PopularDestination.tsx";
-import Cards from "./components/cards/Cards.tsx";
 import Footer from "./components/Footer.tsx";
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import Home from "./pages/Home/Index.tsx";
+import About from "./pages/About/Index.tsx";
+import Register from "./pages/Register/Index.tsx";
+import LogIn from "./pages/LogIn/Index.tsx";
+import DataDisplay from "./pages/Flight-list/Index.tsx";
+
 /* 
-Creare route per le varie pagine e aggiungere la lista dei voli in una nuova route in modo da usare anche
- l'ordinamento
+1: ordinamento
  Aggiungere che quando si clicca sul pulsante ci si sposta direttamente alla ricerca e quando si clicca sul form
  ci si sposta atuomaticamente su di esso.
+ Aggiungere pulsante dark mode e pulsante per la ricerca di voli sola andata o andata e ritorno.
+ Creare l'effetto a sega nel footer.
+ l'immagine di sfondo non si ridemnsiona insieme allo zoom errore ? boh
 */
-function App() {
-	const [resultPropsData, setResultPropsData] = useState<type.Root>();
-	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [isDataUndefined, setIsDataUndefined] = useState<boolean>(false);
 
+declare module "@mui/material/styles" {
+	interface Theme {
+		textShadow: {
+			main: string;
+			darker: string;
+		};
+	}
+	// allow configuration using `createTheme`
+	interface ThemeOptions {
+		textShadow?: {
+			main?: string;
+		};
+	}
+}
+
+function App() {
 	let theme = createTheme({
 		components: {
 			MuiButtonBase: {
@@ -52,6 +63,10 @@ function App() {
 	});
 
 	theme = createTheme(theme, {
+		textShadow: {
+			main: "-2px 5px 10px rgba(0,0,0,0.6)",
+			darker: "4px 4px 5px rgba(0,0,0,0.5)",
+		},
 		palette: {
 			myGray: {
 				main: "#8a8888",
@@ -59,43 +74,23 @@ function App() {
 		},
 	});
 
-	async function onSubmitHandler1(url: string) {
-		setIsLoading(true);
-		setIsDataUndefined(false);
-		const response = await fetchSearch(url).catch((err) => {
-			console.log(err);
-		});
-
-		if (Object.keys(response.data).length === 0) {
-			setIsDataUndefined(true);
-		} else {
-			setResultPropsData(response.data);
-		}
-
-		console.log("fetch avvenuta");
-		setIsLoading(false);
-	}
-
 	return (
-		<ThemeProvider theme={theme}>
-			<CssBaseline />
-			<Navbar></Navbar>
-			<MainBgImage></MainBgImage>
-			<Box className="pageContainer">
-				<Main></Main>
-				<SearchForm submitPassUrl={onSubmitHandler1}></SearchForm>
+		<>
+			<ThemeProvider theme={theme}>
+				<CssBaseline />
+				<Navbar></Navbar>
 
-				<dataContext.Provider value={resultPropsData || null}>
-					{isLoading && <CircularProgress sx={{ margin: "auto" }}></CircularProgress>}
-					{resultPropsData && <DataDisplay />}
-					{isDataUndefined && <p>Non ci sono voli</p>}
-				</dataContext.Provider>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/about" element={<About />} />
+					<Route path="/register" element={<Register />} />
+					<Route path="/login" element={<LogIn />} />
+					<Route path="/flight-list" element={<DataDisplay />} />
+				</Routes>
 
-				<PopularDestination></PopularDestination>
-				<Cards></Cards>
-			</Box>
-			<Footer></Footer>
-		</ThemeProvider>
+				<Footer></Footer>
+			</ThemeProvider>
+		</>
 	);
 }
 

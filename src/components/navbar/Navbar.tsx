@@ -10,8 +10,10 @@ import {
 	ListItemButton,
 	ListItemIcon,
 	ListItemText,
+	Slide,
 	Toolbar,
 	Typography,
+	useScrollTrigger,
 	useTheme,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
@@ -19,27 +21,61 @@ import InfoIcon from "@mui/icons-material/Info";
 import MenuIcon from "@mui/icons-material/Menu";
 import LoginIcon from "@mui/icons-material/Login";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
-import "./Navbar.css";
-import { useState } from "react";
+import { Fragment, ReactElement, useState } from "react";
+import { Link } from "react-router-dom";
 
-type Icons = {
-	[key: string]: JSX.Element;
+const pages = [
+	{ name: "Home", path: "/", icon: <HomeIcon /> },
+	{ name: "About Us", path: "/about", icon: <InfoIcon /> },
+	{ name: "Register", path: "/register", icon: <HowToRegIcon /> },
+	{ name: "Log In", path: "/login", icon: <LoginIcon /> },
+];
+
+const HideOnScroll = ({ children }: { children: ReactElement }) => {
+	const scrollTrigger = useScrollTrigger();
+
+	return (
+		<Slide appear={true} direction="down" in={!scrollTrigger}>
+			{children}
+		</Slide>
+	);
 };
 
-const Navbar = () => {
-	const pages = ["Home", "About us", "Register", "Log In"];
-	const icons: Icons = {
-		Home: <HomeIcon />,
-		"About us": <InfoIcon />,
-		"Log In": <LoginIcon />,
-		Register: <HowToRegIcon />,
-	};
-	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const theme = useTheme();
-
+const MobileDrawer = () => {
 	function toggleDrawer(toggle: boolean) {
 		setIsOpen(toggle);
 	}
+
+	const [isOpen, setIsOpen] = useState<boolean>(false);
+
+	return (
+		<>
+			<Box onClick={() => toggleDrawer(!isOpen)} sx={{ display: { xs: "block", md: "none" } }}>
+				<IconButton>
+					<MenuIcon />
+				</IconButton>
+			</Box>
+
+			<Drawer anchor="right" open={isOpen} onClose={() => toggleDrawer(!isOpen)}>
+				<Box sx={{ width: 250 }} onClick={() => toggleDrawer(!isOpen)}>
+					<List>
+						{pages.map(({ name, path, icon }) => (
+							<ListItem key={name}>
+								<ListItemButton component={Link} to={path}>
+									<ListItemIcon>{icon}</ListItemIcon>
+									<ListItemText primary={name}></ListItemText>
+								</ListItemButton>
+							</ListItem>
+						))}
+					</List>
+				</Box>
+			</Drawer>
+		</>
+	);
+};
+
+const Navbar = () => {
+	const theme = useTheme();
 
 	function buttonChooser(page: string) {
 		switch (page) {
@@ -53,66 +89,52 @@ const Navbar = () => {
 				break;
 		}
 	}
-
 	return (
-		<AppBar
-			variant="elevation"
-			elevation={15}
-			position="fixed"
-			color="secondary"
-			sx={{
-				maxWidth: { xs: 0.9, lg: 0.8 },
-				borderRadius: 3,
-				top: "1.5rem",
-				left: "50%",
-				transform: "translateX(-50%)",
-				bgcolor: "white",
-				color: theme.palette.secondary.main,
-			}}
-		>
-			<Toolbar variant="regular" sx={{ justifyContent: "space-between" }}>
-				<Typography variant="h3" fontFamily={"Croissant One"} sx={{ fontSize: { xs: "2rem" } }}>
-					Travel With Us
-				</Typography>
-				<Box onClick={() => toggleDrawer(!isOpen)} sx={{ display: { xs: "block", md: "none" } }}>
-					<IconButton>
-						<MenuIcon />
-					</IconButton>
-				</Box>
+		<HideOnScroll>
+			<AppBar
+				variant="elevation"
+				elevation={15}
+				position="sticky"
+				color="secondary"
+				sx={{
+					maxWidth: { xs: 0.9, lg: 0.8 },
+					borderRadius: theme.shape.borderRadius,
+					top: "1.5rem",
+					marginX: "auto",
+					bgcolor: "white",
+					color: theme.palette.secondary.main,
+				}}
+			>
+				<Toolbar variant="regular" sx={{ justifyContent: "space-between" }}>
+					<Typography variant="h3" fontFamily={"Croissant One"} sx={{ fontSize: { xs: "2rem" } }}>
+						Travel With Us
+					</Typography>
 
-				<Drawer
-					sx={{ md: { display: "none" } }}
-					anchor="right"
-					open={isOpen}
-					onClose={() => setIsOpen(false)}
-				>
-					<Box sx={{ width: 250 }}>
-						<List>
-							{pages.map((page) => (
-								<ListItem key={page}>
-									<ListItemButton>
-										<ListItemIcon>{icons[page]}</ListItemIcon>
-										<ListItemText primary={page}></ListItemText>
-									</ListItemButton>
-								</ListItem>
-							))}
-						</List>
+					<MobileDrawer></MobileDrawer>
+
+					<Box sx={{ display: { xs: "none", md: "flex" } }}>
+						{pages.map(({ name, path, icon }) => (
+							<Fragment key={name}>
+								{name === "Register" && (
+									<Divider key={`divider${name}`} flexItem orientation="vertical"></Divider>
+								)}
+								<Button
+									component={Link}
+									to={path}
+									variant={buttonChooser(name)}
+									color="secondary"
+									key={name}
+									sx={{ marginX: 1 }}
+								>
+									{icon}
+									{name}
+								</Button>
+							</Fragment>
+						))}
 					</Box>
-				</Drawer>
-
-				<Box sx={{ display: { xs: "none", md: "flex" } }}>
-					{pages.flatMap((page) => [
-						page === "Register" && (
-							<Divider key={`divider${page}`} flexItem orientation="vertical"></Divider>
-						),
-						<Button variant={buttonChooser(page)} color="secondary" key={page} sx={{ marginX: 1 }}>
-							{icons[page]}
-							{page}
-						</Button>,
-					])}
-				</Box>
-			</Toolbar>
-		</AppBar>
+				</Toolbar>
+			</AppBar>
+		</HideOnScroll>
 	);
 };
 

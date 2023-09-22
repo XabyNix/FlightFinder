@@ -1,10 +1,10 @@
 import "./Results.css";
 import { Box } from "@mui/material";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import FlightModal from "../../flightModal/FlightModal.tsx";
-import * as type from "../../../../common/types.ts";
+import FlightModal from "./flightModal/FlightModal.tsx";
+import * as type from "../../common/types.ts";
 import format from "date-fns/format";
-import { dictionariesContext } from "../../../../common/contexts.ts";
+import { dictionariesContext } from "../../common/contexts.ts";
 import { useContext } from "react";
 
 interface prop {

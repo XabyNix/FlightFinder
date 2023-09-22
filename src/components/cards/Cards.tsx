@@ -2,7 +2,6 @@ import { Box, Card, CardContent, CardHeader, CardMedia, Typography, useTheme } f
 import gela from "../../assets/gela.jpeg";
 import berlino from "../../assets/berlino.jpg";
 import barcellona from "../../assets/barcellona.jpg";
-import "./cards.css";
 
 const cards = [
 	{

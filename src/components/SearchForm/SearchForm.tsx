@@ -1,7 +1,7 @@
 import Calendar from "./calendar/Calendar";
 import InputSearch from "./inputSearch/InputSearch";
 import Options from "./options/Options";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import "./SearchForm.css";
 import { endpoints } from "../../common/endpoints";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -14,7 +14,7 @@ interface props {
 	submitPassUrl(argUrl: string): void;
 }
 
-const SearchForm = ({ submitPassUrl }: props) => {
+const SearchForm = forwardRef<HTMLFormElement, props>(({ submitPassUrl }, ref) => {
 	const [departure, setDeparture] = useState<string>();
 	const [destination, setDestination] = useState<string>();
 	const [departureDate, setDepartureDate] = useState<Date>();
@@ -66,24 +66,24 @@ const SearchForm = ({ submitPassUrl }: props) => {
 	}
 
 	return (
-		<form onSubmit={submitHandler}>
+		<form onSubmit={submitHandler} ref={ref}>
 			<Paper className="searchFrame" elevation={4} sx={{ borderRadius: 3, marginY: "2rem" }}>
 				<LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={it}>
 					<InputSearch
-						id="departureLocation"
+						area="departureLocation"
 						label="Aereoporto partenza"
 						changeLocation={(location) => changeDeparture(location)}
 					></InputSearch>
 
 					<InputSearch
-						id="destinationLocation"
+						area="destinationLocation"
 						label="Aereoporto destinazione"
 						changeLocation={changeDestination}
 					></InputSearch>
 
 					<Calendar
 						isRequired={true}
-						gridArea="departureDate"
+						area="departureDate"
 						label="Data di partenza"
 						stateDate={departureDate!}
 						changeStateDate={changeDepartureDate}
@@ -92,7 +92,7 @@ const SearchForm = ({ submitPassUrl }: props) => {
 					<Calendar
 						disabled={departureDate ? false : true}
 						isRequired={false}
-						gridArea="returnDate"
+						area="returnDate"
 						label="Data di ritorno"
 						stateDate={returnDate!}
 						changeStateDate={changeReturnDate}
@@ -103,10 +103,10 @@ const SearchForm = ({ submitPassUrl }: props) => {
 
 					<Button
 						type="submit"
-						id="searchButton"
 						variant="contained"
 						fullWidth
 						sx={{
+							gridArea: "searchButton",
 							height: "100%",
 							fontSize: "1rem",
 						}}
@@ -117,6 +117,6 @@ const SearchForm = ({ submitPassUrl }: props) => {
 			</Paper>
 		</form>
 	);
-};
+});
 
 export default SearchForm;
