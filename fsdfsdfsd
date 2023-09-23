@@ -1,0 +1,125 @@
+[33mcommit 5a1c8db29391f148dc00e034840c29a0fa567ff3[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: xaby <xabynix@gmail.com>
+Date:   Fri Sep 22 21:34:59 2023 +0200
+
+    added Router and some improvements
+
+[33mcommit 70d177d2f4402adef6c12516fb025241403e25ac[m
+Author: xaby <xabynix@gmail.com>
+Date:   Thu Sep 21 03:10:57 2023 +0200
+
+    added footer and card transitions
+
+[33mcommit 56395b717d6b6395fea85c5875c352d46a4b12b8[m
+Author: xaby <xabynix@gmail.com>
+Date:   Wed Sep 20 04:39:43 2023 +0200
+
+    added cards
+
+[33mcommit ebe4c971537cca8fc964f6cf6c9018b1986c9805[m
+Author: xaby <xabynix@gmail.com>
+Date:   Tue Sep 19 20:23:51 2023 +0200
+
+    added all styles to page and some components
+
+[33mcommit aa5b3d9aadc4fccd8d9ae2ef592b997b75c3a23a[m
+Author: xaby <xabynix@gmail.com>
+Date:   Sun Sep 17 02:17:09 2023 +0200
+
+    good commit no errors! :)
+
+[33mcommit 15bd7526c11aac51c0f4eb7a77ac2ba969fd0e8b[m
+Author: xaby <xabynix@gmail.com>
+Date:   Sun Sep 17 01:29:24 2023 +0200
+
+    inputSearch no error now
+
+[33mcommit bd467dd5d20c3e1b783b5b2bbb9bcee980f35864[m
+Author: xaby <xabynix@gmail.com>
+Date:   Sat Sep 16 02:03:54 2023 +0200
+
+    modal works
+
+[33mcommit 97bebdcba0e507677f0215b9f7d54f911c8e1d5e[m
+Author: xaby <xabynix@gmail.com>
+Date:   Sat Sep 16 02:03:36 2023 +0200
+
+    modal works
+
+[33mcommit 5ecb1e015564a00c49fc51d18b527e97979778e5[m
+Author: xaby <xabynix@gmail.com>
+Date:   Thu Sep 14 23:59:49 2023 +0200
+
+    good commit mui works good and requests too
+
+[33mcommit df7b89ead02fca3c6479c151dfac2e599304de45[m
+Author: xaby <xabynix@gmail.com>
+Date:   Thu Sep 14 01:14:27 2023 +0200
+
+    and results
+
+[33mcommit c6945447e9f5000eef3e1d68c131a62626fe1d0d[m
+Author: xaby <xabynix@gmail.com>
+Date:   Thu Sep 14 01:12:23 2023 +0200
+
+    bad commit, have changed something
+
+[33mcommit 66a4b774e8aca8d8d65b65fa6013bcce8a958600[m
+Author: xaby <xabynix@gmail.com>
+Date:   Sun Sep 10 03:04:38 2023 +0200
+
+    added mobile style and responsive
+
+[33mcommit fbbd52e9ae64a5cd0a50e6a52433513216ec2709[m
+Author: xaby <xabynix@gmail.com>
+Date:   Sat Sep 9 16:31:43 2023 +0200
+
+    good gommit
+
+[33mcommit 0b031c87658adbf463c1dce242c5fa6171b1c74d[m
+Author: xaby <xabynix@gmail.com>
+Date:   Sat Sep 9 03:03:48 2023 +0200
+
+    same as the past commit
+
+[33mcommit 6ef2921708c02267b393eea1d358aac78883ace5[m
+Author: xaby <xabynix@gmail.com>
+Date:   Sat Sep 9 03:03:04 2023 +0200
+
+    some improvements for errors should work fine
+
+[33mcommit 30ab23d48b5104c24d81163f684ac1cecc93a0b7[m
+Author: xaby <xabynix@gmail.com>
+Date:   Wed Sep 6 22:15:08 2023 +0200
+
+    changed results i dont like it
+
+[33mcommit 5fdca1acf4c91a149686eb5cbb477c1ce27d61e0[m
+Author: xaby <xabynix@gmail.com>
+Date:   Wed Sep 6 18:51:11 2023 +0200
+
+    all works fine have to do single flight page
+
+[33mcommit 71dccf7d1385ecddf1d05a1064d14bd481bdfecc[m
+Author: xaby <xabynix@gmail.com>
+Date:   Thu Aug 31 01:26:57 2023 +0200
+
+    calendar adjustment
+
+[33mcommit 30184d9dae03f0fd5dfcaea455ef8f2cf51d73f9[m
+Author: XabyNix <xabynix@gmail.com>
+Date:   Sat Aug 19 13:07:19 2023 +0200
+
+    Delete README.md
+
+[33mcommit 7ea9f3f42564c5482ab5f82e105ff4ce13774cc2[m
+Author: XabyNix <xabynix@gmail.com>
+Date:   Sat Aug 19 13:03:48 2023 +0200
+
+    Update README.md
+
+[33mcommit 5dd276f455bafecdf09f08e2fe0c197b74bcbd3a[m
+Author: Orazio Giovane <xabynix@gmail.com>
+Date:   Sat Aug 19 12:59:12 2023 +0200
+
+    first-commit

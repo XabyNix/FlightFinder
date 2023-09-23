@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box";
 import Cards from "../../components/cards/Cards";
 import PopularDestination from "../../components/PopularDestination";
 import SearchForm from "../../components/SearchForm/SearchForm";
@@ -8,6 +7,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import fetchSearch from "../../utils/fetchSearch";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Container } from "@mui/material";
 
 function Index() {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -38,7 +38,7 @@ function Index() {
 	return (
 		<>
 			<MainBgImage />
-			<Box className="pageContainer">
+			<Container>
 				<Main formRef={formRef}></Main>
 				<SearchForm ref={formRef} submitPassUrl={onSubmitHandler1}></SearchForm>
 
@@ -47,7 +47,7 @@ function Index() {
 
 				<PopularDestination></PopularDestination>
 				<Cards></Cards>
-			</Box>
+			</Container>
 		</>
 	);
 }

@@ -1,5 +1,5 @@
 import Navbar from "./components/navbar/Navbar";
-import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import { Container, CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import { teal } from "@mui/material/colors";
 import Footer from "./components/Footer.tsx";
 import { Route, Routes } from "react-router-dom";

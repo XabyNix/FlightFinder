@@ -15,6 +15,7 @@ const icons = [<InstagramIcon />, <TwitterIcon />, <FacebookIcon />];
 function Footer() {
 	return (
 		<Stack
+			mt={10}
 			width={"100%"}
 			spacing={2}
 			useFlexGap
