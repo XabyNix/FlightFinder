@@ -106,9 +106,7 @@ const Navbar = () => {
 				}}
 			>
 				<Toolbar variant="regular" sx={{ justifyContent: "space-between" }}>
-					<Typography variant="h3" fontFamily={"Croissant One"} sx={{ fontSize: { xs: "2rem" } }}>
-						Travel With Us
-					</Typography>
+					<Typography variant="h3">Travel With Us</Typography>
 
 					<MobileDrawer></MobileDrawer>
 
