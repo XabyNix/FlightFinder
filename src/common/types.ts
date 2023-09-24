@@ -1,3 +1,24 @@
+import z from "zod";
+export const registerSchema = z
+	.object({
+		name: z.string().min(1, "Campo Obbligatorio"),
+		surname: z.string().min(1, "Campo Obbligatorio"),
+		email: z.string().email("Email non valida"),
+		password: z.string().min(6, "Lunghezza minima di 6 caratteri"),
+		confirmPassword: z.string(),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		message: "Le password devono essere uguali",
+		path: ["confirmPassword"],
+	});
+export type TRegisterSchema = z.infer<typeof registerSchema>;
+
+export const loginShema = z.object({
+	email: z.string().email("Email non valida"),
+	password: z.string().min(6, "Lunghezza minima di 6 caratteri"),
+});
+export type TLoginShema = z.infer<typeof loginShema>;
+
 export interface Root {
 	data: Daum[];
 	dictionaries: Dictionaries;

@@ -1,4 +1,3 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,6 +10,10 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { loginShema, TLoginShema } from "../../common/types.ts";
+import { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function Copyright(props: any) {
@@ -27,14 +30,20 @@ function Copyright(props: any) {
 }
 
 export default function Index() {
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get("email"),
-			password: data.get("password"),
-		});
+	const {
+		handleSubmit,
+		reset,
+		control,
+		formState: { errors, isSubmitting, isSubmitSuccessful },
+	} = useForm<TLoginShema>({ resolver: zodResolver(loginShema) });
+
+	const submitThis = (data: TLoginShema) => {
+		console.log(data);
 	};
+
+	useEffect(() => {
+		if (isSubmitSuccessful) reset({});
+	});
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -53,27 +62,41 @@ export default function Index() {
 				<Typography component="h1" variant="h5">
 					Sign up
 				</Typography>
-				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+				<Box component="form" noValidate onSubmit={handleSubmit(submitThis)} sx={{ mt: 3 }}>
 					<Grid container spacing={2}>
 						<Grid item xs={12}>
-							<TextField
-								required
-								fullWidth
-								id="email"
-								label="Indirizzo email"
+							<Controller
 								name="email"
-								autoComplete="email"
+								control={control}
+								defaultValue=""
+								render={({ field }) => (
+									<TextField
+										{...field}
+										error={!!errors.email}
+										helperText={errors.email?.message}
+										fullWidth
+										label="Indirizzo email"
+										autoComplete="email"
+									/>
+								)}
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<TextField
-								required
-								fullWidth
+							<Controller
 								name="password"
-								label="Password"
-								type="password"
-								id="password"
-								autoComplete="new-password"
+								control={control}
+								defaultValue=""
+								render={({ field }) => (
+									<TextField
+										{...field}
+										error={!!errors.password}
+										helperText={errors.password?.message}
+										fullWidth
+										label="Password"
+										type="password"
+										autoComplete="new-password"
+									/>
+								)}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -83,7 +106,13 @@ export default function Index() {
 							/>
 						</Grid>
 					</Grid>
-					<Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+					<Button
+						disabled={isSubmitting}
+						type="submit"
+						fullWidth
+						variant="contained"
+						sx={{ mt: 3, mb: 2 }}
+					>
 						Entra
 					</Button>
 					<Grid container justifyContent="flex-end">

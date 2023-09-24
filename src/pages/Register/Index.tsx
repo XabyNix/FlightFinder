@@ -1,4 +1,3 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,6 +8,10 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { useForm, Controller } from "react-hook-form";
+import { useEffect } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registerSchema, TRegisterSchema } from "../../common/types.ts";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function Copyright(props: any) {
@@ -25,14 +28,20 @@ function Copyright(props: any) {
 }
 
 export default function Index() {
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get("email"),
-			password: data.get("password"),
-		});
+	const {
+		handleSubmit,
+		reset,
+		control,
+		formState: { errors, isSubmitting, isSubmitSuccessful },
+	} = useForm<TRegisterSchema>({ resolver: zodResolver(registerSchema) });
+
+	const submitThis = (data: TRegisterSchema) => {
+		console.log(data);
 	};
+
+	useEffect(() => {
+		if (isSubmitSuccessful) reset({});
+	});
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -51,62 +60,104 @@ export default function Index() {
 				<Typography component="h1" variant="h5">
 					Sign up
 				</Typography>
-				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+				<Box component="form" onSubmit={handleSubmit(submitThis)} sx={{ mt: 3 }}>
 					<Grid container spacing={2}>
 						<Grid item xs={12} sm={6}>
-							<TextField
-								autoComplete="given-name"
-								name="firstName"
-								required
-								fullWidth
-								id="firstName"
-								label="Nome"
-								autoFocus
+							<Controller
+								name="name"
+								control={control}
+								defaultValue={""}
+								render={({ field }) => (
+									<TextField
+										{...field}
+										error={!!errors.name}
+										helperText={errors.name ? (errors.name.message as string) : ""}
+										autoComplete="given-name"
+										fullWidth
+										label="Nome"
+										autoFocus
+									/>
+								)}
 							/>
 						</Grid>
 						<Grid item xs={12} sm={6}>
-							<TextField
-								required
-								fullWidth
-								id="lastName"
-								label="Cognome"
-								name="lastName"
-								autoComplete="family-name"
+							<Controller
+								name="surname"
+								control={control}
+								defaultValue={""}
+								render={({ field }) => (
+									<TextField
+										{...field}
+										error={!!errors.surname}
+										helperText={errors.surname ? (errors.surname.message as string) : ""}
+										fullWidth
+										label="Cognome"
+										autoComplete="family-name"
+									/>
+								)}
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<TextField
-								required
-								fullWidth
-								id="email"
-								label="Indirizzo email"
+							<Controller
 								name="email"
-								autoComplete="email"
+								control={control}
+								defaultValue={""}
+								render={({ field }) => (
+									<TextField
+										{...field}
+										error={!!errors.email}
+										helperText={errors.email ? (errors.email.message as string) : ""}
+										fullWidth
+										label="Indirizzo email"
+										autoComplete="email"
+									/>
+								)}
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<TextField
-								required
-								fullWidth
+							<Controller
 								name="password"
-								label="Password"
-								type="password"
-								id="password"
-								autoComplete="new-password"
+								control={control}
+								defaultValue={""}
+								render={({ field }) => (
+									<TextField
+										{...field}
+										error={!!errors.password}
+										helperText={errors.password ? (errors.password.message as string) : ""}
+										type="password"
+										fullWidth
+										label="Password"
+									/>
+								)}
 							/>
 						</Grid>
 						<Grid item xs={12}>
-							<TextField
-								required
-								fullWidth
+							<Controller
 								name="confirmPassword"
-								label="conferma password"
-								type="password"
-								id="confirmPassword"
+								control={control}
+								defaultValue={""}
+								render={({ field }) => (
+									<TextField
+										{...field}
+										error={!!errors.confirmPassword}
+										helperText={
+											errors.confirmPassword ? (errors.confirmPassword.message as string) : ""
+										}
+										fullWidth
+										label="conferma password"
+										type="password"
+									/>
+								)}
 							/>
 						</Grid>
 					</Grid>
-					<Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+					<Button
+						disabled={isSubmitting}
+						type="submit"
+						fullWidth
+						variant="contained"
+						sx={{ mt: 3, mb: 2 }}
+					>
 						Registrati
 					</Button>
 					<Grid container justifyContent="flex-end">
