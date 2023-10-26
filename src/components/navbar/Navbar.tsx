@@ -22,7 +22,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import LoginIcon from "@mui/icons-material/Login";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { Fragment, ReactElement, useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const pages = [
 	{ name: "Home", path: "/", icon: <HomeIcon /> },
@@ -42,6 +42,7 @@ const HideOnScroll = ({ children }: { children: ReactElement }) => {
 };
 
 const MobileDrawer = () => {
+	const theme = useTheme();
 	function toggleDrawer(toggle: boolean) {
 		setIsOpen(toggle);
 	}
@@ -61,7 +62,16 @@ const MobileDrawer = () => {
 					<List>
 						{pages.map(({ name, path, icon }) => (
 							<ListItem key={name}>
-								<ListItemButton component={Link} to={path}>
+								<ListItemButton
+									component={NavLink}
+									to={path}
+									sx={{
+										"&.active": {
+											bgcolor: theme.palette.secondary.main,
+											color: theme.palette.getContrastText(theme.palette.secondary.main),
+										},
+									}}
+								>
 									<ListItemIcon>{icon}</ListItemIcon>
 									<ListItemText primary={name}></ListItemText>
 								</ListItemButton>
@@ -117,12 +127,18 @@ const Navbar = () => {
 									<Divider key={`divider${name}`} flexItem orientation="vertical"></Divider>
 								)}
 								<Button
-									component={Link}
+									component={NavLink}
 									to={path}
 									variant={buttonChooser(name)}
 									color="secondary"
 									key={name}
-									sx={{ marginX: 1 }}
+									sx={{
+										marginX: 1,
+										"&.active": {
+											bgcolor: theme.palette.secondary.main,
+											color: theme.palette.getContrastText(theme.palette.secondary.main),
+										},
+									}}
 								>
 									{icon}
 									{name}
